@@ -1,0 +1,43 @@
+{
+  "name": "ui",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test:e2e:ui": "cypress open",
+    "test:e2e": "cypress run -b chrome",
+    "test": "npm run test:e2e"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^2.2.9",
+    "@emotion/react": "^11.10.0",
+    "@emotion/styled": "^11.10.0",
+    "axios": "^0.27.2",
+    "formik": "^2.2.9",
+    "framer-motion": "^7.2.1",
+    "next": "12.1.5",
+    "next-auth": "^4.3.4",
+    "next-intl": "^2.7.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.3.1",
+    "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.30",
+    "@types/react": "^18.0.17",
+    "@typescript-eslint/eslint-plugin": "^5.23.0",
+    "@typescript-eslint/parser": "^5.23.0",
+    "cypress": "^10.1.0",
+    "eslint": "^8.15.0",
+    "eslint-config-next": "12.1.6",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-sonarjs": "^0.13.0",
+    "eslint-plugin-sort-destructure-keys": "^1.4.0",
+    "prettier": "^2.6.2",
+    "typescript": "^4.6.4"
+  }
+}
