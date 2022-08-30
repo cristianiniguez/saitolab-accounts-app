@@ -4,5 +4,6 @@
     "dev": {
       "cache": false
     }
-  }
+  },
+  "globalDependencies": ["$PORT", "$NODE_ENV", "$DATABASE_URL", "$JWT_SECRET"]
 }

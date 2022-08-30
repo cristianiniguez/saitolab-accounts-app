@@ -8,8 +8,8 @@ import { Account } from 'src/accounts/entities/account.entity';
 import { Move } from 'src/accounts/entities/move.entity';
 
 @Module({
+  controllers: [TestController],
   imports: [TypeOrmModule.forFeature([User, Account, Move])],
   providers: [TestService],
-  controllers: [TestController],
 })
 export class TestModule {}

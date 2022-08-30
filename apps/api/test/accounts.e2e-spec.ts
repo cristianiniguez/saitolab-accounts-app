@@ -2,7 +2,7 @@ import { Test } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 
-import { AppModule } from 'src/app.module';
+import { AppModule } from '../src/app.module';
 import { testUser1, testUser2 } from './mocks/users.mock';
 import { testAccount1, testAccount2 } from './mocks/accounts.mock';
 
@@ -49,9 +49,9 @@ describe('Accounts Module (e2e)', () => {
         .expect(201);
 
       expect(postAccountResponse.body).toEqual({
+        id: expect.any(Number),
         name: testAccount1.name,
         user: expect.any(Object),
-        id: expect.any(Number),
       });
     });
 
@@ -63,9 +63,9 @@ describe('Accounts Module (e2e)', () => {
         .expect(400);
 
       expect(postAccountResponse.body).toEqual({
-        statusCode: 400,
-        message: ['name should not be empty', 'name must be a string'],
         error: 'Bad Request',
+        message: ['name should not be empty', 'name must be a string'],
+        statusCode: 400,
       });
     });
   });

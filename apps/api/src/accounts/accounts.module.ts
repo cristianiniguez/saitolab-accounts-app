@@ -9,8 +9,8 @@ import { Account } from './entities/account.entity';
 import { Move } from './entities/move.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Account, Move])],
   controllers: [AccountsController, MovesController],
+  imports: [TypeOrmModule.forFeature([Account, Move])],
   providers: [AccountsService, MovesService],
 })
 export class AccountsModule {}
