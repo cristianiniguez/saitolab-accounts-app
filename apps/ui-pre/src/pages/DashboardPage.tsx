@@ -1,9 +1,9 @@
 import { collection } from 'firebase/firestore';
-import { useFirestore, useFirestoreCollectionData, useFirestoreDocData } from 'reactfire';
+import { useFirestore, useFirestoreCollectionData } from 'reactfire';
 
 const DashboardPage = () => {
   const accountsRef = collection(useFirestore(), 'accounts');
-  const { status, data } = useFirestoreCollectionData(accountsRef);
+  const { data, status } = useFirestoreCollectionData(accountsRef);
 
   if (status === 'loading') return <p>Loading ...</p>;
 
