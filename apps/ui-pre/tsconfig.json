@@ -1,11 +1,11 @@
 {
   "extends": "tsconfig/ui.json",
   "compilerOptions": {
-    "target": "ESNext",
-    "useDefineForClassFields": true,
-    "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
-    "jsx": "react-jsx"
+    "esModuleInterop": false,
+    "jsx": "react-jsx",
+    "useDefineForClassFields": true,
+    "target": "ESNext"
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

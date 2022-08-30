@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist",
-    "strict": false,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "target": "ES2017"
   }
 }
