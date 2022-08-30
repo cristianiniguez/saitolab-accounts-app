@@ -5,11 +5,10 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
+    "start": "node dist/main",
+    "dev": "nest start --watch",
+    "dev:debug": "nest start --debug --watch",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
-    "start:dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -21,7 +20,6 @@
     "migration:run": "npm run typeorm migration:run -- -d src/data-source",
     "migration:show": "npm run typeorm migration:show -- -d src/data-source",
     "migration:revert": "npm run typeorm migration:revert -- -d src/data-source",
-    "dev": "nest start --watch",
     "ts-check": "tsc --noEmit"
   },
   "dependencies": {
