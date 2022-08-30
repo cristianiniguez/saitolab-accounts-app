@@ -6,6 +6,7 @@ import config from 'src/config';
 
 @Global()
 @Module({
+  exports: [TypeOrmModule],
   imports: [
     TypeOrmModule.forRootAsync({
       inject: [config.KEY],
@@ -23,6 +24,5 @@ import config from 'src/config';
       },
     }),
   ],
-  exports: [TypeOrmModule],
 })
 export class DatabaseModule {}

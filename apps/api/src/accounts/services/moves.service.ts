@@ -20,8 +20,8 @@ export class MovesService {
 
   async findOne(id: number, user: User) {
     const move = await this.moveRepo.findOne({
-      where: { id },
       relations: ['account'],
+      where: { id },
     });
 
     // the move should exist

@@ -33,11 +33,11 @@ const NormalModules: ModuleMetadata['imports'] = [
 const TestModules: ModuleMetadata['imports'] = [TestModule];
 
 @Module({
+  controllers: [AppController],
   imports:
     process.env.NODE_ENV === 'test'
       ? [...NormalModules, ...TestModules]
       : NormalModules,
-  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}

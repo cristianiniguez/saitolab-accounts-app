@@ -12,6 +12,7 @@ import { UsersModule } from 'src/users/users.module';
 import config from 'src/config';
 
 @Module({
+  controllers: [AuthController],
   imports: [
     PassportModule,
     JwtModule.registerAsync({
@@ -24,6 +25,5 @@ import config from 'src/config';
     UsersModule,
   ],
   providers: [AuthService, BasicStrategy, JwtStrategy],
-  controllers: [AuthController],
 })
 export class AuthModule {}

@@ -11,10 +11,10 @@ function App() {
     <AppServicesProvider>
       <Router>
         <Routes>
-          <Route path='/' element={<HomePage />} />
-          <Route path='/sign-in' element={<SignInPage />} />
-          <Route path='/sign-up' element={<SignUpPage />} />
-          <Route path='/dashboard' element={<DashboardPage />} />
+          <Route element={<HomePage />} path='/' />
+          <Route element={<SignInPage />} path='/sign-in' />
+          <Route element={<SignUpPage />} path='/sign-up' />
+          <Route element={<DashboardPage />} path='/dashboard' />
         </Routes>
       </Router>
     </AppServicesProvider>

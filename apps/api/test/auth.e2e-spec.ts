@@ -5,6 +5,9 @@ import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { testUser1 as testUser } from './mocks/users.mock';
 
+const signUpPath = '/auth/sign-up';
+const signInPath = '/auth/sign-in';
+
 describe('Auth Module (e2e)', () => {
   let app: INestApplication;
 
@@ -30,7 +33,7 @@ describe('Auth Module (e2e)', () => {
   describe('/auth/sign-up (POST)', () => {
     it('should return 201 (Created) when using a correct body', async () => {
       const signUpResponse = await request(app.getHttpServer())
-        .post('/auth/sign-up')
+        .post(signUpPath)
         .send(testUser)
         .expect(201);
 
@@ -39,20 +42,20 @@ describe('Auth Module (e2e)', () => {
       expect(signUpResponse.body).toEqual({
         email,
         firstName,
+        id: expect.any(Number),
         lastName,
         role: 'client',
-        id: expect.any(Number),
       });
     });
 
     it('should return 400 (Bad Request) when using an empty body', async () => {
       const signUpResponse = await request(app.getHttpServer())
-        .post('/auth/sign-up')
+        .post(signUpPath)
         .send({})
         .expect(400);
 
       expect(signUpResponse.body).toEqual({
-        statusCode: 400,
+        error: 'Bad Request',
         message: [
           'email should not be empty',
           'email must be an email',
@@ -63,22 +66,22 @@ describe('Auth Module (e2e)', () => {
           'lastName should not be empty',
           'lastName must be a string',
         ],
-        error: 'Bad Request',
+        statusCode: 400,
       });
     });
 
     it('should return 400 (Bad Request) when using a repeated email', async () => {
-      await request(app.getHttpServer()).post('/auth/sign-up').send(testUser);
+      await request(app.getHttpServer()).post(signUpPath).send(testUser);
 
       const signUpResponse = await request(app.getHttpServer())
-        .post('/auth/sign-up')
+        .post(signUpPath)
         .send(testUser)
         .expect(400);
 
       expect(signUpResponse.body).toEqual({
-        statusCode: 400,
-        message: 'Email is already in use',
         error: 'Bad Request',
+        message: 'Email is already in use',
+        statusCode: 400,
       });
     });
   });
@@ -86,23 +89,23 @@ describe('Auth Module (e2e)', () => {
   describe('/auth/sign-in (POST)', () => {
     beforeEach(async () => {
       // creating a new user
-      await request(app.getHttpServer()).post('/auth/sign-up').send(testUser);
+      await request(app.getHttpServer()).post(signUpPath).send(testUser);
     });
 
     it('should return 201 (Created) when using valid credentials', async () => {
       const { email, firstName, lastName, password } = testUser;
 
       const signInResponse = await request(app.getHttpServer())
-        .post('/auth/sign-in')
+        .post(signInPath)
         .auth(email, password, { type: 'basic' })
         .expect(201);
 
       expect(signInResponse.body).toEqual({
         access_token: expect.any(String),
         user: {
-          id: expect.any(Number),
           email: email,
           firstName,
+          id: expect.any(Number),
           lastName,
           role: 'client',
         },
@@ -111,27 +114,27 @@ describe('Auth Module (e2e)', () => {
 
     it('should return 401 (Unauthorized) when using invalid email', async () => {
       const signInResponse = await request(app.getHttpServer())
-        .post('/auth/sign-in')
+        .post(signInPath)
         .auth('someone', testUser.password, { type: 'basic' })
         .expect(401);
 
       expect(signInResponse.body).toEqual({
-        statusCode: 401,
-        message: 'Not allowed - Wrong credentials',
         error: 'Unauthorized',
+        message: 'Not allowed - Wrong credentials',
+        statusCode: 401,
       });
     });
 
     it('should return 401 (Unauthorized) when using invalid password', async () => {
       const signInResponse = await request(app.getHttpServer())
-        .post('/auth/sign-in')
+        .post(signInPath)
         .auth(testUser.email, 'else', { type: 'basic' })
         .expect(401);
 
       expect(signInResponse.body).toEqual({
-        statusCode: 401,
-        message: 'Not allowed - Wrong credentials',
         error: 'Unauthorized',
+        message: 'Not allowed - Wrong credentials',
+        statusCode: 401,
       });
     });
   });
@@ -141,11 +144,11 @@ describe('Auth Module (e2e)', () => {
 
     beforeEach(async () => {
       // creating a new user
-      await request(app.getHttpServer()).post('/auth/sign-up').send(testUser);
+      await request(app.getHttpServer()).post(signUpPath).send(testUser);
 
       // signing in
       const signInResponse = await request(app.getHttpServer())
-        .post('/auth/sign-in')
+        .post(signInPath)
         .auth(testUser.email, testUser.password, { type: 'basic' });
 
       // saving the token
@@ -161,9 +164,9 @@ describe('Auth Module (e2e)', () => {
       const { email, firstName, lastName } = testUser;
 
       expect(checkResponse.body).toEqual({
-        id: expect.any(Number),
         email,
         firstName,
+        id: expect.any(Number),
         lastName,
         role: 'client',
       });
@@ -176,8 +179,8 @@ describe('Auth Module (e2e)', () => {
         .expect(401);
 
       expect(checkResponse.body).toEqual({
-        statusCode: 401,
         message: 'Unauthorized',
+        statusCode: 401,
       });
     });
   });

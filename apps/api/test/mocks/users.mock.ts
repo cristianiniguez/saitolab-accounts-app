@@ -1,13 +1,13 @@
 export const testUser1 = {
+  email: 'rsloane0@is.gd',
   firstName: 'Rand',
   lastName: 'Sloane',
-  email: 'rsloane0@is.gd',
   password: 'RHjlfDx',
 };
 
 export const testUser2 = {
+  email: 'lgwillym1@yellowbook.com',
   firstName: 'Lammond',
   lastName: 'Gwillym',
-  email: 'lgwillym1@yellowbook.com',
   password: 'cvRItBj2aHyn',
 };

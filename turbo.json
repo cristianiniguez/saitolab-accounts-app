@@ -3,6 +3,10 @@
   "pipeline": {
     "dev": {
       "cache": false
+    },
+    "lint": {
+      "outputs": []
     }
-  }
+  },
+  "globalDependencies": ["$PORT", "$NODE_ENV", "$DATABASE_URL", "$JWT_SECRET"]
 }
