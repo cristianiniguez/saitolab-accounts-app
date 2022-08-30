@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 
-export const environments = {
+export const environments: { [k: string]: string } = {
   dev: '.env',
   production: '.env.production',
   staging: '.env.staging',
