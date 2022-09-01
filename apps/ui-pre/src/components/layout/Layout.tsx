@@ -1,7 +1,7 @@
 import { FC, ReactNode } from 'react';
 import { Helmet } from 'react-helmet';
-import { useIntl } from 'react-intl';
 import { useColorModeValue, VStack } from '@chakra-ui/react';
+import useFormatMessage from '../../hooks/useFormatMessage';
 
 type LayoutProps = {
   children: ReactNode;
@@ -9,11 +9,9 @@ type LayoutProps = {
 };
 
 const Layout: FC<LayoutProps> = ({ children, title: pageTitle }) => {
-  const { formatMessage } = useIntl();
-  const appName = formatMessage({ id: 'common.app.name' });
-  const titleToShow = pageTitle
-    ? formatMessage({ id: 'common.app.title' }, { name: appName, pageTitle })
-    : appName;
+  const t = useFormatMessage();
+  const appName = t('common.app.name');
+  const titleToShow = pageTitle ? t('common.app.title', { name: appName, pageTitle }) : appName;
 
   return (
     <>
