@@ -1,4 +1,7 @@
 {
   "common.app.name": "Saito Lab Accounts",
-  "common.app.title": "{pageTitle} | {name}"
+  "common.app.title": "{pageTitle} | {name}",
+  "common.sign.in": "Sign In",
+  "common.sign.up": "Sign Up",
+  "home.title": "Welcome to Saito Lab Accounts"
 }
