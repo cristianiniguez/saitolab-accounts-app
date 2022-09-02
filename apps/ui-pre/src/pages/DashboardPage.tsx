@@ -1,18 +1,17 @@
-import { collection } from 'firebase/firestore';
-import { useFirestore, useFirestoreCollectionData } from 'reactfire';
+import { Button } from '@chakra-ui/react';
+import { signOut } from 'firebase/auth';
+import { useAuth } from 'reactfire';
+import Layout from '../components/layout/Layout';
+import useFormatMessage from '../hooks/useFormatMessage';
 
 const DashboardPage = () => {
-  const accountsRef = collection(useFirestore(), 'accounts');
-  const { data, status } = useFirestoreCollectionData(accountsRef);
-
-  if (status === 'loading') return <p>Loading ...</p>;
+  const auth = useAuth();
+  const t = useFormatMessage();
 
   return (
-    <div>
-      {data.map((doc, i) => (
-        <p key={i}>{JSON.stringify(doc)}</p>
-      ))}
-    </div>
+    <Layout title='Dashboard'>
+      <Button onClick={() => signOut(auth)}>{t('common.sign.out')}</Button>
+    </Layout>
   );
 };
 
