@@ -1,27 +1,20 @@
 import { FC, ReactNode } from 'react';
-import { Helmet } from 'react-helmet';
 import { useColorModeValue, VStack } from '@chakra-ui/react';
-import useFormatMessage from '../../hooks/useFormatMessage';
+import Header from './Header';
 
 type LayoutProps = {
   children: ReactNode;
-  title?: string;
+  isPublic?: boolean;
 };
 
-const Layout: FC<LayoutProps> = ({ children, title: pageTitle }) => {
-  const t = useFormatMessage();
-  const appName = t('common.app.name');
-  const titleToShow = pageTitle ? t('common.app.title', { name: appName, pageTitle }) : appName;
-
+const Layout: FC<LayoutProps> = ({ children, isPublic }) => {
   return (
-    <>
-      <Helmet>
-        <title>{titleToShow}</title>
-      </Helmet>
-      <VStack as='main' bg={useColorModeValue('green.50', 'gray.800')} minH='100vh'>
+    <VStack alignItems='stretch' bg={useColorModeValue('green.50', 'gray.800')} minH='100vh'>
+      {!isPublic && <Header />}
+      <VStack as='main' flexGrow={1}>
         {children}
       </VStack>
-    </>
+    </VStack>
   );
 };
 

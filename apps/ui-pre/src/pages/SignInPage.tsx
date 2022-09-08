@@ -1,7 +1,7 @@
 // components
 import { Center, Heading, Stack, Text } from '@chakra-ui/react';
+import Page from '../components/layout/Page';
 import Favicon from '../components/icons/Favicon';
-import Layout from '../components/layout/Layout';
 import SignInForm from '../components/forms/SignInForm';
 // hooks
 import useFormatMessage from '../hooks/useFormatMessage';
@@ -9,7 +9,7 @@ import useFormatMessage from '../hooks/useFormatMessage';
 const SignInPage = () => {
   const t = useFormatMessage();
   return (
-    <Layout title={t('signIn.pageTitle')}>
+    <Page title={t('signIn.pageTitle')}>
       <Center flex={1}>
         <Stack maxW='lg' mx='auto' px={6} py={12} spacing={8}>
           <Favicon mx='auto' />
@@ -24,7 +24,7 @@ const SignInPage = () => {
           <SignInForm />
         </Stack>
       </Center>
-    </Layout>
+    </Page>
   );
 };
 

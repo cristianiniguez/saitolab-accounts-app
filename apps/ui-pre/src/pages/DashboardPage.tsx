@@ -1,7 +1,7 @@
 import { Button } from '@chakra-ui/react';
 import { signOut } from 'firebase/auth';
 import { useAuth } from 'reactfire';
-import Layout from '../components/layout/Layout';
+import Page from '../components/layout/Page';
 import useFormatMessage from '../hooks/useFormatMessage';
 
 const DashboardPage = () => {
@@ -9,9 +9,9 @@ const DashboardPage = () => {
   const t = useFormatMessage();
 
   return (
-    <Layout title='Dashboard'>
+    <Page title='Dashboard'>
       <Button onClick={() => signOut(auth)}>{t('common.sign.out')}</Button>
-    </Layout>
+    </Page>
   );
 };
 

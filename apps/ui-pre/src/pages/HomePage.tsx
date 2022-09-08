@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 // components
 import { Box, Button, Center, Heading, HStack } from '@chakra-ui/react';
-import Layout from '../components/layout/Layout';
+import Page from '../components/layout/Page';
 // hooks
 import useFormatMessage from '../hooks/useFormatMessage';
 // constants
@@ -15,7 +15,7 @@ const HomePage = () => {
   const goToSignUpPage = () => navigate(ROUTES.SIGN_UP);
 
   return (
-    <Layout>
+    <Page>
       <Center h='100vh'>
         <Box>
           <Heading mb={8}>{t('home.title')}</Heading>
@@ -25,7 +25,7 @@ const HomePage = () => {
           </HStack>
         </Box>
       </Center>
-    </Layout>
+    </Page>
   );
 };
 
