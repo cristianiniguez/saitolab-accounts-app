@@ -1,28 +1,12 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Flex,
-  HStack,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Stack,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Box, Flex, HStack, IconButton, Stack, useDisclosure } from '@chakra-ui/react';
 import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons';
 import Favicon from '../icons/Favicon';
-import { useUser } from 'reactfire';
-import useSignOut from '../../hooks/useSignOut';
 import useFormatMessage from '../../hooks/useFormatMessage';
 import NavLink from '../link/NavLink';
+import HeaderMenu from './HeaderMenu';
 
 const Header = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const { data } = useUser();
-  const signOut = useSignOut();
   const t = useFormatMessage();
 
   return (
@@ -37,6 +21,7 @@ const Header = () => {
           onClick={isOpen ? onClose : onOpen}
           size='md'
         />
+
         <HStack alignItems='center' spacing={8}>
           <Favicon boxSize={8} />
           <HStack as='nav' display={{ base: 'none', md: 'flex' }} spacing={4}>
@@ -44,16 +29,8 @@ const Header = () => {
             <NavLink to='/profile'>{t('profile.pageTitle')}</NavLink>
           </HStack>
         </HStack>
-        <Flex alignItems='center'>
-          <Menu>
-            <MenuButton as={Button} cursor='pointer' minW={0} rounded='full' variant='link'>
-              <Avatar name={data?.displayName || ''} size='sm' src={data?.photoURL || ''} />
-            </MenuButton>
-            <MenuList>
-              <MenuItem onClick={signOut}>{t('common.sign.out')}</MenuItem>
-            </MenuList>
-          </Menu>
-        </Flex>
+
+        <HeaderMenu />
       </Flex>
 
       {isOpen && (
