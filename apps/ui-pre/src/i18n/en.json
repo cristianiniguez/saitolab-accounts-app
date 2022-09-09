@@ -4,6 +4,7 @@
   "common.sign.in": "Sign In",
   "common.sign.up": "Sign Up",
   "common.sign.out": "Sign Out",
+  "open.menu": "Open Menu",
   "home.title": "Welcome to Saito Lab Accounts",
   "signIn.pageTitle": "Sign In",
   "signIn.title": "Sign in to your account",
@@ -31,5 +32,7 @@
   "signUp.form.submitButton.label": "Sign up",
   "signUp.form.submitButton.loading": "Enrolling ...",
   "signUp.form.footer": "Already a user? {login}",
-  "signUp.form.footer.login": "Login"
+  "signUp.form.footer.login": "Login",
+  "dashboard.pageTitle": "Dashboard",
+  "profile.pageTitle": "Profile"
 }
