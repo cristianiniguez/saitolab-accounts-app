@@ -1,7 +1,7 @@
 import { useAuth } from 'reactfire';
 import { FormattedMessage } from 'react-intl';
 // components
-import { Box, Stack, Button, useColorModeValue, Alert, AlertIcon, Text } from '@chakra-ui/react';
+import { Box, Stack, Button, useColorModeValue, Text } from '@chakra-ui/react';
 import { Form, Formik, FormikConfig } from 'formik';
 import { EmailInput, PasswordInput } from '../../components/inputs';
 import Link from '../link/Link';
@@ -13,21 +13,12 @@ import * as C from '../../constants';
 import { useNavigate } from 'react-router-dom';
 import useFormatMessage from '../../hooks/useFormatMessage';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import useAppToast from '../../hooks/useAppToast';
 
 type SignInFormConfig = FormikConfig<{ email: string; password: string }>;
 
-const SignInFormComponent: SignInFormConfig['component'] = ({ isSubmitting, status }) => {
+const SignInFormComponent: SignInFormConfig['component'] = ({ isSubmitting }) => {
   const t = useFormatMessage();
-
-  // const getFormErrorMessage = (error: string) => {
-  //   switch (error) {
-  //     case C.INVALID_CREDENTIALS_ERROR:
-  //       return t('common.error.invalidCredentials');
-  //     case C.UNKNOWN_ERROR:
-  //     default:
-  //       return t('common.error.unknown');
-  //   }
-  // };
 
   return (
     <Form id='sign-in-form'>
@@ -35,12 +26,6 @@ const SignInFormComponent: SignInFormConfig['component'] = ({ isSubmitting, stat
         <Stack spacing={4}>
           <EmailInput label={t('signIn.form.email.label')} />
           <PasswordInput label='Password' />
-          {status.error && (
-            <Alert status='error'>
-              <AlertIcon />
-              {/* {getFormErrorMessage(status.error)} */}
-            </Alert>
-          )}
           <Button color='white' colorScheme='green' isLoading={isSubmitting} type='submit'>
             {t('signIn.form.submitButton.label')}
           </Button>
@@ -66,6 +51,7 @@ const SignInForm = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const t = useFormatMessage();
+  const toast = useAppToast();
 
   const getInitialValues = (): SignInFormConfig['initialValues'] => ({
     email: '',
@@ -81,18 +67,24 @@ const SignInForm = () => {
     });
   };
 
-  const handleSubmit: SignInFormConfig['onSubmit'] = async (
-    values,
-    { setStatus, setSubmitting },
-  ) => {
-    setStatus({ error: null });
-
+  const handleSubmit: SignInFormConfig['onSubmit'] = async (values, { setSubmitting }) => {
     try {
-      await signInWithEmailAndPassword(auth, values.email, values.password);
+      const {
+        user: { displayName },
+      } = await signInWithEmailAndPassword(auth, values.email, values.password);
+      toast({
+        description: t('signIn.form.toast.success.description', { displayName }),
+        status: 'error',
+        title: t('signIn.form.toast.success.title'),
+      });
       navigate(C.ROUTES.DASHBOARD);
     } catch (e) {
       console.error(e);
-      setStatus({ error: 'ERROR' });
+      toast({
+        description: t('signIn.form.toast.error.description'),
+        status: 'error',
+        title: t('signIn.form.toast.error.title'),
+      }); // TODO: catch all error codes
     } finally {
       setSubmitting(false);
     }
