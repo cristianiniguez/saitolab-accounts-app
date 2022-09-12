@@ -37,6 +37,10 @@
   "signUp.form.submitButton.loading": "Enrolling ...",
   "signUp.form.footer": "Already a user? {login}",
   "signUp.form.footer.login": "Login",
+  "signUp.form.toast.success.title": "Signed up successfully",
+  "signUp.form.toast.success.description": "Welcome",
+  "signUp.form.toast.error.title": "Error on Sign Up",
+  "signUp.form.toast.error.description": "Something wrong happened",
   "dashboard.pageTitle": "Dashboard",
   "profile.pageTitle": "Profile"
 }

@@ -1,27 +1,19 @@
+import { useAuth } from 'reactfire';
+import { FormattedMessage } from 'react-intl';
 // components
-import {
-  Box,
-  HStack,
-  Stack,
-  Button,
-  Text,
-  useColorModeValue,
-  Alert,
-  AlertIcon,
-} from '@chakra-ui/react';
+import { Box, HStack, Stack, Button, Text, useColorModeValue } from '@chakra-ui/react';
 import { Form, Formik, FormikConfig } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { EmailInput, PasswordInput, TextInput } from '../inputs';
+import Link from '../link/Link';
 // utils
 import * as Yup from 'yup';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 // hooks
 import useFormatMessage from '../../hooks/useFormatMessage';
+import useAppToast from '../../hooks/useAppToast';
 // constants
 import * as C from '../../constants/';
-import Link from '../link/Link';
-import { FormattedMessage } from 'react-intl';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { useAuth } from 'reactfire';
 
 type SignUpFormConfig = FormikConfig<{
   email: string;
@@ -30,18 +22,8 @@ type SignUpFormConfig = FormikConfig<{
   password: string;
 }>;
 
-const SignUpFormComponent: SignUpFormConfig['component'] = ({ isSubmitting, status }) => {
+const SignUpFormComponent: SignUpFormConfig['component'] = ({ isSubmitting }) => {
   const t = useFormatMessage();
-
-  // const getFormErrorMessage = (error: string) => {
-  //   switch (error) {
-  //     case C.INVALID_CREDENTIALS_ERROR:
-  //       return t('common.error.invalidCredentials');
-  //     case C.UNKNOWN_ERROR:
-  //     default:
-  //       return t('common.error.unknown');
-  //   }
-  // };
 
   return (
     <Form id='sign-up-form'>
@@ -57,12 +39,6 @@ const SignUpFormComponent: SignUpFormConfig['component'] = ({ isSubmitting, stat
           </HStack>
           <EmailInput label={t('signUp.form.email.label')} />
           <PasswordInput label={t('signUp.form.password.label')} />
-          {status.error && (
-            <Alert status='error'>
-              <AlertIcon />
-              {/* {getFormErrorMessage(status.error)} */}
-            </Alert>
-          )}
           <Button
             color='white'
             colorScheme='green'
@@ -94,19 +70,24 @@ const SignUpForm = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const t = useFormatMessage();
+  const toast = useAppToast();
 
-  const handleSubmit: SignUpFormConfig['onSubmit'] = async (
-    values,
-    { setStatus, setSubmitting },
-  ) => {
-    setStatus({ error: null });
-
+  const handleSubmit: SignUpFormConfig['onSubmit'] = async (values, { setSubmitting }) => {
     try {
       await createUserWithEmailAndPassword(auth, values.email, values.password);
+      toast({
+        description: t('signUp.form.toast.success.description'),
+        status: 'error',
+        title: t('signUp.form.toast.success.title'),
+      });
       navigate(C.ROUTES.DASHBOARD);
     } catch (e) {
       console.error(e);
-      setStatus({ error: 'ERROR' });
+      toast({
+        description: t('signUp.form.toast.error.description'),
+        status: 'error',
+        title: t('signUp.form.toast.error.title'),
+      }); // TODO: catch all error codes
     } finally {
       setSubmitting(false);
     }
