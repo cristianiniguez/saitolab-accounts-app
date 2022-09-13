@@ -12,11 +12,11 @@ const PublicRoute = () => {
 
   const renderRoute = () => {
     if (isCheckLoading) return <SpinnerPage />;
-    if (!data?.signedIn) return <Navigate to={ROUTES.SIGN_IN} />;
+    if (!data.signedIn) return <Navigate to={ROUTES.SIGN_IN} />;
     return <Outlet />;
   };
 
-  return <Layout isPublic={isCheckLoading}>{renderRoute()}</Layout>;
+  return <Layout isPublic={isCheckLoading || !data}>{renderRoute()}</Layout>;
 };
 
 export default PublicRoute;
