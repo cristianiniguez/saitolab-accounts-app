@@ -119,7 +119,6 @@ const SignUpForm = () => {
   return (
     <Formik
       component={SignUpFormComponent}
-      initialStatus={{ error: null }}
       initialValues={getInitialValues()}
       onSubmit={handleSubmit}
       validationSchema={getValidationSchema()}
