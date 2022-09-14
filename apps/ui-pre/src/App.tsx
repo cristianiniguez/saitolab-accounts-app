@@ -2,11 +2,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // components
 import AppServicesProvider from './components/providers/AppServicesProvider';
 import PublicRoute from './components/routes/PublicRoute';
+import PrivateRoute from './components/routes/PrivateRoute';
 import HomePage from './pages/HomePage';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
 import DashboardPage from './pages/DashboardPage';
-import PrivateRoute from './components/routes/PrivateRoute';
 
 const App = () => (
   <AppServicesProvider>
