@@ -1,18 +1,20 @@
+import { FC } from 'react';
 // components
 import { Avatar, Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
-import { useUser } from 'reactfire';
+// hooks
 import useFormatMessage from '@/hooks/useFormatMessage';
 import useSignOut from '@/hooks/useSignOut';
+// HOCs
+import withUser, { WithUserProps } from '@/hocs/withUser';
 
-const HeaderMenu = () => {
-  const { data } = useUser();
+const HeaderMenu: FC<WithUserProps> = ({ user }) => {
   const signOut = useSignOut();
   const t = useFormatMessage();
 
   return (
     <Menu>
       <MenuButton as={Button} cursor='pointer' minW={0} rounded='full' variant='link'>
-        <Avatar name={data?.displayName || ''} size='sm' src={data?.photoURL || ''} />
+        <Avatar name={user.displayName || ''} size='sm' src={user.photoURL || ''} />
       </MenuButton>
       <MenuList>
         <MenuItem onClick={signOut}>{t('common.sign.out')}</MenuItem>
@@ -21,4 +23,4 @@ const HeaderMenu = () => {
   );
 };
 
-export default HeaderMenu;
+export default withUser(HeaderMenu);
