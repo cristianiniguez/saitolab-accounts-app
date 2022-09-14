@@ -1,18 +1,14 @@
-import { Button } from '@chakra-ui/react';
-import { signOut } from 'firebase/auth';
-import { useAuth } from 'reactfire';
+import { FC } from 'react';
+import { Text } from '@chakra-ui/react';
 import Page from '../components/layout/Page';
-import useFormatMessage from '../hooks/useFormatMessage';
+import withUser, { WithUserProps } from '../hocs/withUser';
 
-const DashboardPage = () => {
-  const auth = useAuth();
-  const t = useFormatMessage();
-
+const DashboardPage: FC<WithUserProps> = ({ user }) => {
   return (
     <Page title='Dashboard'>
-      <Button onClick={() => signOut(auth)}>{t('common.sign.out')}</Button>
+      <Text>Welcome {user.displayName}</Text>
     </Page>
   );
 };
 
-export default DashboardPage;
+export default withUser(DashboardPage);
