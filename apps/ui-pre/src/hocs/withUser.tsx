@@ -1,6 +1,6 @@
-import { User } from 'firebase/auth';
 import { ComponentType } from 'react';
 import { useUser } from 'reactfire';
+import { User } from 'firebase/auth';
 
 export interface WithUserProps {
   user: User;
