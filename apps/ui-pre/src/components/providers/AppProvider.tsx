@@ -10,11 +10,7 @@ const firebaseConfig = {
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
 };
 
-type AppProviderProps = {
-  children: ReactNode;
-};
-
-const AppProvider: FC<AppProviderProps> = ({ children }) => {
+const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
   return <FirebaseAppProvider firebaseConfig={firebaseConfig}>{children}</FirebaseAppProvider>;
 };
 
