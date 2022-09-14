@@ -14,7 +14,7 @@ const SignInPage = () => {
         <Stack maxW='lg' mx='auto' spacing={8}>
           <Favicon mx='auto' />
           <Stack align='center' textAlign='center'>
-            <Heading color='green.900' fontSize='4xl'>
+            <Heading color='green.900' fontSize={{ base: '2xl', md: '4xl' }}>
               {t('signIn.title')}
             </Heading>
             <Text color='gray.600' fontSize='lg'>
