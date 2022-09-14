@@ -27,7 +27,13 @@ const SignUpFormComponent: SignUpFormConfig['component'] = ({ isSubmitting }) =>
 
   return (
     <Form id='sign-up-form'>
-      <Box bg={useColorModeValue('white', 'gray.700')} boxShadow='lg' p={8} rounded='lg' w='md'>
+      <Box
+        bg={useColorModeValue('white', 'gray.700')}
+        boxShadow='lg'
+        p={8}
+        rounded='lg'
+        w={{ md: 'md' }}
+      >
         <Stack spacing={4}>
           <HStack alignItems='start'>
             <Box>

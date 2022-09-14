@@ -10,10 +10,10 @@ const SignInPage = () => {
   const t = useFormatMessage();
   return (
     <Page title={t('signIn.pageTitle')}>
-      <Center flex={1}>
-        <Stack maxW='lg' mx='auto' px={6} py={12} spacing={8}>
+      <Center flex={1} p={4}>
+        <Stack maxW='lg' mx='auto' spacing={8}>
           <Favicon mx='auto' />
-          <Stack align='center'>
+          <Stack align='center' textAlign='center'>
             <Heading color='green.900' fontSize='4xl'>
               {t('signIn.title')}
             </Heading>

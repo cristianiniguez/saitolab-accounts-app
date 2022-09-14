@@ -22,7 +22,13 @@ const SignInFormComponent: SignInFormConfig['component'] = ({ isSubmitting }) =>
 
   return (
     <Form id='sign-in-form'>
-      <Box bg={useColorModeValue('white', 'gray.700')} boxShadow='lg' p={8} rounded='lg' w='md'>
+      <Box
+        bg={useColorModeValue('white', 'gray.700')}
+        boxShadow='lg'
+        p={8}
+        rounded='lg'
+        w={{ md: 'md' }}
+      >
         <Stack spacing={4}>
           <EmailInput label={t('signIn.form.email.label')} />
           <PasswordInput label='Password' />
