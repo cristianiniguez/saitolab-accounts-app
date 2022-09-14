@@ -3,17 +3,17 @@ import { FormattedMessage } from 'react-intl';
 // components
 import { Box, HStack, Stack, Button, Text, useColorModeValue } from '@chakra-ui/react';
 import { Form, Formik, FormikConfig } from 'formik';
-import { useNavigate } from 'react-router-dom';
 import { EmailInput, PasswordInput, TextInput } from '@/components/inputs';
 import Link from '@/components/link/Link';
 // utils
-import * as Yup from 'yup';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import * as Yup from 'yup';
 // hooks
+import { useNavigate } from 'react-router-dom';
 import useFormatMessage from '@/hooks/useFormatMessage';
 import useAppToast from '@/hooks/useAppToast';
 // constants
-import * as C from '@/constants/';
+import * as C from '@/constants';
 
 type SignUpFormConfig = FormikConfig<{
   email: string;
