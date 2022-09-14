@@ -1,10 +1,10 @@
 // components
 import { Center, Heading, Stack, Text } from '@chakra-ui/react';
-import Favicon from '../components/icons/Favicon';
-import SignUpForm from '../components/forms/SignUpForm';
+import Favicon from '@/components/icons/Favicon';
+import Page from '@/components/layout/Page';
+import SignUpForm from '@/components/forms/SignUpForm';
 // hooks
-import useFormatMessage from '../hooks/useFormatMessage';
-import Page from '../components/layout/Page';
+import useFormatMessage from '@/hooks/useFormatMessage';
 
 const SignUpPage = () => {
   const t = useFormatMessage();

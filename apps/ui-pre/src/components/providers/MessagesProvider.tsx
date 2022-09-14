@@ -1,7 +1,7 @@
 import { FC, ReactNode } from 'react';
 import { IntlProvider } from 'react-intl';
 
-import messages_en from '../../i18n/en.json';
+import messages_en from '@/i18n/en.json';
 
 type MessagesProviderProps = {
   children: ReactNode;

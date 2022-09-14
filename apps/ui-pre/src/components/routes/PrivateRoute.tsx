@@ -1,10 +1,11 @@
-import { Navigate, Outlet } from 'react-router-dom';
-import { useSigninCheck } from 'reactfire';
 // components
-import Layout from '../layout/Layout';
+import { Navigate, Outlet } from 'react-router-dom';
+import Layout from '@/components/layout/Layout';
 import SpinnerPage from './SpinnerPage';
+// hooks
+import { useSigninCheck } from 'reactfire';
 // constants
-import { ROUTES } from '../../constants';
+import { ROUTES } from '@/constants';
 
 const PublicRoute = () => {
   const { data, status } = useSigninCheck();

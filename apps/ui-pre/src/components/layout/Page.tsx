@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react';
 import { Helmet } from 'react-helmet';
-import useFormatMessage from '../../hooks/useFormatMessage';
+import useFormatMessage from '@/hooks/useFormatMessage';
 
 type PageProps = {
   children: ReactNode;

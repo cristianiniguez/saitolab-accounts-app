@@ -1,7 +1,8 @@
+// components
 import { Avatar, Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import { useUser } from 'reactfire';
-import useFormatMessage from '../../hooks/useFormatMessage';
-import useSignOut from '../../hooks/useSignOut';
+import useFormatMessage from '@/hooks/useFormatMessage';
+import useSignOut from '@/hooks/useSignOut';
 
 const HeaderMenu = () => {
   const { data } = useUser();

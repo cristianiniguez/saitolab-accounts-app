@@ -1,7 +1,9 @@
 import { FC } from 'react';
+// components
 import { Text } from '@chakra-ui/react';
-import Page from '../components/layout/Page';
-import withUser, { WithUserProps } from '../hocs/withUser';
+import Page from '@/components/layout/Page';
+// HOCs
+import withUser, { WithUserProps } from '@/hocs/withUser';
 
 const DashboardPage: FC<WithUserProps> = ({ user }) => {
   return (

@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 // components
 import { Box, Button, Center, Heading, HStack } from '@chakra-ui/react';
-import Page from '../components/layout/Page';
+import Page from '@/components/layout/Page';
 // hooks
-import useFormatMessage from '../hooks/useFormatMessage';
+import useFormatMessage from '@/hooks/useFormatMessage';
 // constants
-import { ROUTES } from '../constants';
+import { ROUTES } from '@/constants';
 
 const HomePage = () => {
   const t = useFormatMessage();

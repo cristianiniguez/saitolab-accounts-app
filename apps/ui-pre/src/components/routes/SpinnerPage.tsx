@@ -1,5 +1,5 @@
 import { Center, Spinner } from '@chakra-ui/react';
-import Page from '../layout/Page';
+import Page from '@/components/layout/Page';
 
 const SpinnerPage = () => {
   return (

@@ -4,6 +4,7 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": false,
     "jsx": "react-jsx",
+    "paths": { "@*": ["./src*"] },
     "useDefineForClassFields": true,
     "target": "ESNext"
   },

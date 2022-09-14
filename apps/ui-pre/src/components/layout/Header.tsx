@@ -1,13 +1,13 @@
 // components
 import { Box, Flex, HStack, IconButton, Stack, useDisclosure } from '@chakra-ui/react';
 import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons';
-import Favicon from '../icons/Favicon';
-import NavLink from '../link/NavLink';
+import Favicon from '@/components/icons/Favicon';
+import NavLink from '@/components/link/NavLink';
 import HeaderMenu from './HeaderMenu';
 // hooks
-import useFormatMessage from '../../hooks/useFormatMessage';
+import useFormatMessage from '@/hooks/useFormatMessage';
 // constants
-import { ROUTES } from '../../constants';
+import { ROUTES } from '@/constants';
 
 const Header = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
