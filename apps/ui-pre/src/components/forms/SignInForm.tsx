@@ -64,14 +64,13 @@ const SignInForm = () => {
     password: '',
   });
 
-  const getValidationSchema = (): SignInFormConfig['validationSchema'] => {
-    return Yup.object().shape({
+  const getValidationSchema = (): SignInFormConfig['validationSchema'] =>
+    Yup.object().shape({
       email: Yup.string()
         .email(t('signIn.form.email.error.invalid'))
         .required(t('signIn.form.email.error.required')),
       password: Yup.string().required(t('signIn.form.password.error.required')),
     });
-  };
 
   const handleSubmit: SignInFormConfig['onSubmit'] = async (values, { setSubmitting }) => {
     try {

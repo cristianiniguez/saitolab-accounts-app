@@ -7,15 +7,13 @@ type LayoutProps = {
   isPublic?: boolean;
 };
 
-const Layout: FC<LayoutProps> = ({ children, isPublic }) => {
-  return (
-    <VStack alignItems='stretch' bg={useColorModeValue('green.50', 'gray.800')} minH='100vh'>
-      {!isPublic && <Header />}
-      <VStack as='main' flexGrow={1}>
-        {children}
-      </VStack>
+const Layout: FC<LayoutProps> = ({ children, isPublic }) => (
+  <VStack alignItems='stretch' bg={useColorModeValue('green.50', 'gray.800')} minH='100vh'>
+    {!isPublic && <Header />}
+    <VStack as='main' flexGrow={1}>
+      {children}
     </VStack>
-  );
-};
+  </VStack>
+);
 
 export default Layout;

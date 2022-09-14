@@ -104,8 +104,8 @@ const SignUpForm = () => {
     return { email: '', firstName: '', lastName: '', password: '' };
   };
 
-  const getValidationSchema = (): SignUpFormConfig['validationSchema'] => {
-    return Yup.object().shape({
+  const getValidationSchema = (): SignUpFormConfig['validationSchema'] =>
+    Yup.object().shape({
       email: Yup.string()
         .email(t('signUp.form.email.error.invalid'))
         .required(t('signUp.form.email.error.required')),
@@ -113,7 +113,6 @@ const SignUpForm = () => {
       lastName: Yup.string().required(t('signUp.form.lastName.error.required')),
       password: Yup.string().required(t('signUp.form.password.error.required')),
     });
-  };
 
   return (
     <Formik

@@ -6,12 +6,10 @@ type LinkProps = ChakraLinkProps & {
   href: RRDLinkProps['to'];
 };
 
-const Link: FC<LinkProps> = ({ children, href, ...chakraLinkProps }) => {
-  return (
-    <ChakraLink as={RRDLink} to={href} {...chakraLinkProps}>
-      {children}
-    </ChakraLink>
-  );
-};
+const Link: FC<LinkProps> = ({ children, href, ...chakraLinkProps }) => (
+  <ChakraLink as={RRDLink} to={href} {...chakraLinkProps}>
+    {children}
+  </ChakraLink>
+);
 
 export default Link;

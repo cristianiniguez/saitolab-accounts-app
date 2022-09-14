@@ -8,23 +8,21 @@ import SignUpPage from './pages/SignUpPage';
 import DashboardPage from './pages/DashboardPage';
 import PrivateRoute from './components/routes/PrivateRoute';
 
-function App() {
-  return (
-    <AppServicesProvider>
-      <Router>
-        <Routes>
-          <Route element={<PublicRoute />}>
-            <Route element={<HomePage />} path='/' />
-            <Route element={<SignInPage />} path='/sign-in' />
-            <Route element={<SignUpPage />} path='/sign-up' />
-          </Route>
-          <Route element={<PrivateRoute />}>
-            <Route element={<DashboardPage />} path='/dashboard' />
-          </Route>
-        </Routes>
-      </Router>
-    </AppServicesProvider>
-  );
-}
+const App = () => (
+  <AppServicesProvider>
+    <Router>
+      <Routes>
+        <Route element={<PublicRoute />}>
+          <Route element={<HomePage />} path='/' />
+          <Route element={<SignInPage />} path='/sign-in' />
+          <Route element={<SignUpPage />} path='/sign-up' />
+        </Route>
+        <Route element={<PrivateRoute />}>
+          <Route element={<DashboardPage />} path='/dashboard' />
+        </Route>
+      </Routes>
+    </Router>
+  </AppServicesProvider>
+);
 
 export default App;
