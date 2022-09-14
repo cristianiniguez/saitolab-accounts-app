@@ -74,7 +74,7 @@ const SignInForm = () => {
       } = await signInWithEmailAndPassword(auth, values.email, values.password);
       toast({
         description: t('signIn.form.toast.success.description', { displayName }),
-        status: 'error',
+        status: 'success',
         title: t('signIn.form.toast.success.title'),
       });
       navigate(C.ROUTES.DASHBOARD);
