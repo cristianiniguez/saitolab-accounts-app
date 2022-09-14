@@ -8,7 +8,7 @@ import { EmailInput, PasswordInput, TextInput } from '../inputs';
 import Link from '../link/Link';
 // utils
 import * as Yup from 'yup';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 // hooks
 import useFormatMessage from '../../hooks/useFormatMessage';
 import useAppToast from '../../hooks/useAppToast';
@@ -74,10 +74,11 @@ const SignUpForm = () => {
 
   const handleSubmit: SignUpFormConfig['onSubmit'] = async (values, { setSubmitting }) => {
     try {
-      await createUserWithEmailAndPassword(auth, values.email, values.password);
+      const { user } = await createUserWithEmailAndPassword(auth, values.email, values.password);
+      await updateProfile(user, { displayName: `${values.firstName} ${values.lastName}` });
       toast({
         description: t('signUp.form.toast.success.description'),
-        status: 'error',
+        status: 'success',
         title: t('signUp.form.toast.success.title'),
       });
       navigate(C.ROUTES.DASHBOARD);
