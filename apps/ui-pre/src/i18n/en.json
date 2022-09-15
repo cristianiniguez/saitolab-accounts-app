@@ -15,6 +15,7 @@
   "signIn.form.password.label": "Password",
   "signIn.form.password.error.required": "Password is required",
   "signIn.form.submitButton.label": "Sign In",
+  "signIn.form.googleButton.label": "Sign In with Google",
   "signIn.form.footer": "Don't have an account? {enroll}",
   "signIn.form.footer.enroll": "Enroll",
   "signIn.form.toast.success.title": "Signed in successfully",
