@@ -5,6 +5,7 @@ import { Box, HStack, Stack, Button, Text, useColorModeValue } from '@chakra-ui/
 import { Form, Formik, FormikConfig } from 'formik';
 import { EmailInput, PasswordInput, TextInput } from '@/components/inputs';
 import Link from '@/components/link/Link';
+import GoogleButton from '../buttons/GoogleButton';
 // utils
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import * as Yup from 'yup';
@@ -24,6 +25,7 @@ type SignUpFormConfig = FormikConfig<{
 
 const SignUpFormComponent: SignUpFormConfig['component'] = ({ isSubmitting }) => {
   const t = useFormatMessage();
+  const toast = useAppToast();
 
   return (
     <Form id='sign-up-form'>
@@ -54,6 +56,25 @@ const SignUpFormComponent: SignUpFormConfig['component'] = ({ isSubmitting }) =>
           >
             {t('signUp.form.submitButton.label')}
           </Button>
+          <GoogleButton
+            label={t('signUp.form.googleButton.label')}
+            onError={() => {
+              toast({
+                description: t('signUp.form.toast.error.description'),
+                status: 'error',
+                title: t('signUp.form.toast.error.title'),
+              }); // TODO: catch all error codes
+            }}
+            onSuccess={(result) => {
+              toast({
+                description: t('signUp.form.toast.success.description', {
+                  displayName: result.user.displayName,
+                }),
+                status: 'success',
+                title: t('signUp.form.toast.success.title'),
+              });
+            }}
+          />
           <Text align='center' id='sign-up-form-footer'>
             <FormattedMessage
               id='signUp.form.footer'
@@ -81,9 +102,10 @@ const SignUpForm = () => {
   const handleSubmit: SignUpFormConfig['onSubmit'] = async (values, { setSubmitting }) => {
     try {
       const { user } = await createUserWithEmailAndPassword(auth, values.email, values.password);
-      await updateProfile(user, { displayName: `${values.firstName} ${values.lastName}` });
+      const displayName = `${values.firstName} ${values.lastName}`;
+      await updateProfile(user, { displayName });
       toast({
-        description: t('signUp.form.toast.success.description'),
+        description: t('signUp.form.toast.success.description', { displayName }),
         status: 'success',
         title: t('signUp.form.toast.success.title'),
       });

@@ -36,6 +36,7 @@
   "signUp.form.password.error.required": "Password is required",
   "signUp.form.submitButton.label": "Sign up",
   "signUp.form.submitButton.loading": "Enrolling ...",
+  "signUp.form.googleButton.label": "Sign up with Google",
   "signUp.form.footer": "Already a user? {login}",
   "signUp.form.footer.login": "Login",
   "signUp.form.toast.success.title": "Signed up successfully",
