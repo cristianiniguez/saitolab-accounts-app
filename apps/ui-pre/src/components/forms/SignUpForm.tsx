@@ -1,3 +1,4 @@
+import { FirebaseError } from 'firebase/app';
 import { useAuth } from 'reactfire';
 import { FormattedMessage } from 'react-intl';
 // components
@@ -15,6 +16,22 @@ import useFormatMessage from '@/hooks/useFormatMessage';
 import useAppToast from '@/hooks/useAppToast';
 // constants
 import * as C from '@/constants';
+
+const getErrorMessageId = (error: unknown): string | null => {
+  const defaultErrorMessageId = 'signUp.form.toast.error.description';
+  if (!(error instanceof FirebaseError)) return defaultErrorMessageId;
+
+  switch (error.code) {
+    case C.FIREBASE_AUTH_ERROR_CODES.AUTH_POPUP_CLOSED_BY_USER:
+      return null;
+    case C.FIREBASE_AUTH_ERROR_CODES.AUTH_WEAK_PASSWORD:
+      return 'signUp.form.toast.error.description.weak.password';
+    case C.FIREBASE_AUTH_ERROR_CODES.AUTH_EMAIL_ALREADY_IN_USE:
+      return 'signUp.form.toast.error.description.email.used';
+    default:
+      return defaultErrorMessageId;
+  }
+};
 
 type SignUpFormConfig = FormikConfig<{
   email: string;
@@ -34,11 +51,9 @@ const SignUpFormComponent: SignUpFormConfig['component'] = ({ isSubmitting }) =>
     });
   };
 
-  const handleGoogleButtonError = () => {
-    toast({
-      description: t('signIn.form.toast.error.description'),
-      status: 'error',
-    }); // TODO: catch all error codes
+  const handleGoogleButtonError = (error: unknown) => {
+    const errorMessageId = getErrorMessageId(error);
+    errorMessageId && toast({ description: t(errorMessageId), status: 'error' });
   };
 
   return (
@@ -111,10 +126,8 @@ const SignUpForm = () => {
       navigate(C.ROUTES.DASHBOARD);
     } catch (e) {
       console.error(e);
-      toast({
-        description: t('signUp.form.toast.error.description'),
-        status: 'error',
-      }); // TODO: catch all error codes
+      const errorMessageId = getErrorMessageId(e);
+      errorMessageId && toast({ description: t(errorMessageId), status: 'error' });
     } finally {
       setSubmitting(false);
     }

@@ -40,6 +40,8 @@
   "signUp.form.footer.login": "Login",
   "signUp.form.toast.success.description": "Welcome",
   "signUp.form.toast.error.description": "Something wrong happened",
+  "signUp.form.toast.error.description.weak.password": "This password is too weak. Please use a stronger one.",
+  "signUp.form.toast.error.description.email.used": "Please use another email.",
   "dashboard.pageTitle": "Dashboard",
   "profile.pageTitle": "Profile"
 }
