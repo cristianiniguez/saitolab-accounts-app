@@ -15,6 +15,22 @@ import { useAuth } from 'reactfire';
 import { useNavigate } from 'react-router-dom';
 import useFormatMessage from '@/hooks/useFormatMessage';
 import useAppToast from '@/hooks/useAppToast';
+// types
+import { FirebaseError } from 'firebase/app';
+
+const getErrorMessageId = (error: unknown): string | null => {
+  const defaultErrorMessageId = 'signIn.form.toast.error.description';
+  if (!(error instanceof FirebaseError)) return defaultErrorMessageId;
+
+  switch (error.code) {
+    case C.FIREBASE_AUTH_ERROR_CODES.AUTH_POPUP_CLOSED_BY_USER:
+      return null;
+    case C.FIREBASE_AUTH_ERROR_CODES.AUTH_WRONG_PASSWORD:
+      return 'signIn.form.toast.error.description.invalid.credentials';
+    default:
+      return defaultErrorMessageId;
+  }
+};
 
 type SignInFormConfig = FormikConfig<{ email: string; password: string }>;
 
@@ -29,11 +45,9 @@ const SignInFormComponent: SignInFormConfig['component'] = ({ isSubmitting }) =>
     });
   };
 
-  const handleGoogleButtonError = () => {
-    toast({
-      description: t('signIn.form.toast.error.description'),
-      status: 'error',
-    }); // TODO: catch all error codes
+  const handleGoogleButtonError = (error: unknown) => {
+    const errorMessageId = getErrorMessageId(error);
+    errorMessageId && toast({ description: t(errorMessageId), status: 'error' });
   };
 
   return (
@@ -105,10 +119,8 @@ const SignInForm = () => {
       navigate(C.ROUTES.DASHBOARD);
     } catch (e) {
       console.error(e);
-      toast({
-        description: t('signIn.form.toast.error.description'),
-        status: 'error',
-      }); // TODO: catch all error codes
+      const errorMessageId = getErrorMessageId(e);
+      errorMessageId && toast({ description: t(errorMessageId), status: 'error' });
     } finally {
       setSubmitting(false);
     }

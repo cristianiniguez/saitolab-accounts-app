@@ -20,6 +20,7 @@
   "signIn.form.footer.enroll": "Enroll",
   "signIn.form.toast.success.description": "Welcome {displayName}",
   "signIn.form.toast.error.description": "Something wrong happened",
+  "signIn.form.toast.error.description.invalid.credentials": "Invalid credentials",
   "signUp.pageTitle": "Sign Up",
   "signUp.title": "Sign up",
   "signUp.subtitle": "to enjoy all of our cool features",
