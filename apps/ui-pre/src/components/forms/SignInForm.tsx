@@ -6,7 +6,7 @@ import { EmailInput, PasswordInput } from '@/components/inputs';
 import Link from '@/components/link/Link';
 import GoogleButton from '../buttons/GoogleButton';
 // utils
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, UserCredential } from 'firebase/auth';
 import * as Yup from 'yup';
 // constants
 import * as C from '@/constants';
@@ -21,6 +21,20 @@ type SignInFormConfig = FormikConfig<{ email: string; password: string }>;
 const SignInFormComponent: SignInFormConfig['component'] = ({ isSubmitting }) => {
   const t = useFormatMessage();
   const toast = useAppToast();
+
+  const handleGoogleButtonSuccess = ({ user: { displayName } }: UserCredential) => {
+    toast({
+      description: t('signIn.form.toast.success.description', { displayName }),
+      status: 'success',
+    });
+  };
+
+  const handleGoogleButtonError = () => {
+    toast({
+      description: t('signIn.form.toast.error.description'),
+      status: 'error',
+    }); // TODO: catch all error codes
+  };
 
   return (
     <Form id='sign-in-form'>
@@ -39,22 +53,8 @@ const SignInFormComponent: SignInFormConfig['component'] = ({ isSubmitting }) =>
           </Button>
           <GoogleButton
             label={t('signIn.form.googleButton.label')}
-            onError={() => {
-              toast({
-                description: t('signIn.form.toast.error.description'),
-                status: 'error',
-                title: t('signIn.form.toast.error.title'),
-              }); // TODO: catch all error codes
-            }}
-            onSuccess={(result) => {
-              toast({
-                description: t('signIn.form.toast.success.description', {
-                  displayName: result.user.displayName,
-                }),
-                status: 'success',
-                title: t('signIn.form.toast.success.title'),
-              });
-            }}
+            onError={handleGoogleButtonError}
+            onSuccess={handleGoogleButtonSuccess}
           />
           <Text align='center' id='sign-in-form-footer'>
             <FormattedMessage
@@ -101,7 +101,6 @@ const SignInForm = () => {
       toast({
         description: t('signIn.form.toast.success.description', { displayName }),
         status: 'success',
-        title: t('signIn.form.toast.success.title'),
       });
       navigate(C.ROUTES.DASHBOARD);
     } catch (e) {
@@ -109,7 +108,6 @@ const SignInForm = () => {
       toast({
         description: t('signIn.form.toast.error.description'),
         status: 'error',
-        title: t('signIn.form.toast.error.title'),
       }); // TODO: catch all error codes
     } finally {
       setSubmitting(false);
