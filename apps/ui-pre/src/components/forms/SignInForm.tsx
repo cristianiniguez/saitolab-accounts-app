@@ -1,24 +1,53 @@
-import { useAuth } from 'reactfire';
+import { FirebaseError } from 'firebase/app';
 import { FormattedMessage } from 'react-intl';
 // components
 import { Box, Stack, Button, useColorModeValue, Text } from '@chakra-ui/react';
 import { Form, Formik, FormikConfig } from 'formik';
 import { EmailInput, PasswordInput } from '@/components/inputs';
 import Link from '@/components/link/Link';
+import GoogleButton from '../buttons/GoogleButton';
 // utils
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, UserCredential } from 'firebase/auth';
 import * as Yup from 'yup';
 // constants
 import * as C from '@/constants';
 // hooks
+import { useAuth } from 'reactfire';
 import { useNavigate } from 'react-router-dom';
 import useFormatMessage from '@/hooks/useFormatMessage';
 import useAppToast from '@/hooks/useAppToast';
+
+const getErrorMessageId = (error: unknown): string | null => {
+  const defaultErrorMessageId = 'signIn.form.toast.error.description';
+  if (!(error instanceof FirebaseError)) return defaultErrorMessageId;
+
+  switch (error.code) {
+    case C.FIREBASE_AUTH_ERROR_CODES.AUTH_POPUP_CLOSED_BY_USER:
+      return null;
+    case C.FIREBASE_AUTH_ERROR_CODES.AUTH_WRONG_PASSWORD:
+      return 'signIn.form.toast.error.description.invalid.credentials';
+    default:
+      return defaultErrorMessageId;
+  }
+};
 
 type SignInFormConfig = FormikConfig<{ email: string; password: string }>;
 
 const SignInFormComponent: SignInFormConfig['component'] = ({ isSubmitting }) => {
   const t = useFormatMessage();
+  const toast = useAppToast();
+
+  const handleGoogleButtonSuccess = ({ user: { displayName } }: UserCredential) => {
+    toast({
+      description: t('signIn.form.toast.success.description', { displayName }),
+      status: 'success',
+    });
+  };
+
+  const handleGoogleButtonError = (error: unknown) => {
+    const errorMessageId = getErrorMessageId(error);
+    errorMessageId && toast({ description: t(errorMessageId), status: 'error' });
+  };
 
   return (
     <Form id='sign-in-form'>
@@ -35,6 +64,11 @@ const SignInFormComponent: SignInFormConfig['component'] = ({ isSubmitting }) =>
           <Button color='white' colorScheme='green' isLoading={isSubmitting} type='submit'>
             {t('signIn.form.submitButton.label')}
           </Button>
+          <GoogleButton
+            label={t('signIn.form.googleButton.label')}
+            onError={handleGoogleButtonError}
+            onSuccess={handleGoogleButtonSuccess}
+          />
           <Text align='center' id='sign-in-form-footer'>
             <FormattedMessage
               id='signIn.form.footer'
@@ -80,16 +114,12 @@ const SignInForm = () => {
       toast({
         description: t('signIn.form.toast.success.description', { displayName }),
         status: 'success',
-        title: t('signIn.form.toast.success.title'),
       });
       navigate(C.ROUTES.DASHBOARD);
     } catch (e) {
       console.error(e);
-      toast({
-        description: t('signIn.form.toast.error.description'),
-        status: 'error',
-        title: t('signIn.form.toast.error.title'),
-      }); // TODO: catch all error codes
+      const errorMessageId = getErrorMessageId(e);
+      errorMessageId && toast({ description: t(errorMessageId), status: 'error' });
     } finally {
       setSubmitting(false);
     }

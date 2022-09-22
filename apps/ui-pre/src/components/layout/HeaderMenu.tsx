@@ -14,7 +14,12 @@ const HeaderMenu: FC<WithUserProps> = ({ user }) => {
   return (
     <Menu>
       <MenuButton as={Button} cursor='pointer' minW={0} rounded='full' variant='link'>
-        <Avatar name={user.displayName || ''} size='sm' src={user.photoURL || ''} />
+        <Avatar
+          name={user.displayName || ''}
+          referrerPolicy='no-referrer'
+          size='sm'
+          src={user.photoURL || ''}
+        />
       </MenuButton>
       <MenuList>
         <MenuItem onClick={signOut}>{t('common.sign.out')}</MenuItem>
