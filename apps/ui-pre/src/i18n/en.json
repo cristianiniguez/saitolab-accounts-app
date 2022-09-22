@@ -43,5 +43,10 @@
   "signUp.form.toast.error.description.weak.password": "This password is too weak. Please use a stronger one.",
   "signUp.form.toast.error.description.email.used": "Please use another email.",
   "dashboard.pageTitle": "Dashboard",
+  "account.form.title": "New Account",
+  "account.form.name.label": "Account name",
+  "account.form.name.error.required": "Your account needs a name",
+  "account.form.submitButton.label": "Save",
+  "account.form.toast.success.description": "Account {name} created",
   "profile.pageTitle": "Profile"
 }
