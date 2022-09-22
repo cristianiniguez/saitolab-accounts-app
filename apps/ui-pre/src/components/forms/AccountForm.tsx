@@ -16,9 +16,9 @@ import { TextInput } from '../inputs';
 // utils
 import * as Yup from 'yup';
 
-type AccountModalConfig = FormikConfig<{ name: string }>;
+type AccountFormConfig = FormikConfig<{ name: string }>;
 
-const AccountModalComponent: AccountModalConfig['component'] = ({ isSubmitting }) => {
+const AccountFormComponent: AccountFormConfig['component'] = ({ isSubmitting }) => {
   return (
     <ModalContent as={Form}>
       <ModalHeader>New Account</ModalHeader>
@@ -39,18 +39,18 @@ const AccountModalComponent: AccountModalConfig['component'] = ({ isSubmitting }
   );
 };
 
-type AccountModalProps = {
+type AccountFormProps = {
   isOpen: boolean;
   onClose: () => void;
 };
 
-const AccountModal: FC<AccountModalProps> = ({ isOpen, onClose }) => {
-  const getInitialValues = (): AccountModalConfig['initialValues'] => ({ name: '' });
+const AccountForm: FC<AccountFormProps> = ({ isOpen, onClose }) => {
+  const getInitialValues = (): AccountFormConfig['initialValues'] => ({ name: '' });
 
-  const getValidationSchema = (): AccountModalConfig['validationSchema'] =>
+  const getValidationSchema = (): AccountFormConfig['validationSchema'] =>
     Yup.object().shape({ name: Yup.string().required() });
 
-  const handleSubmit: AccountModalConfig['onSubmit'] = (values) => {
+  const handleSubmit: AccountFormConfig['onSubmit'] = (values) => {
     console.log(values);
   };
 
@@ -58,7 +58,7 @@ const AccountModal: FC<AccountModalProps> = ({ isOpen, onClose }) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <Formik
-        component={AccountModalComponent}
+        component={AccountFormComponent}
         initialValues={getInitialValues()}
         onSubmit={handleSubmit}
         validationSchema={getValidationSchema()}
@@ -67,4 +67,4 @@ const AccountModal: FC<AccountModalProps> = ({ isOpen, onClose }) => {
   );
 };
 
-export default AccountModal;
+export default AccountForm;

@@ -2,7 +2,7 @@ import { FC } from 'react';
 // components
 import { Button, useDisclosure } from '@chakra-ui/react';
 import Page from '@/components/layout/Page';
-import AccountModal from '@/components/modals/AccountModal';
+import AccountForm from '@/components/forms/AccountForm';
 // HOCs
 import withUser, { WithUserProps } from '@/hocs/withUser';
 
@@ -13,7 +13,7 @@ const DashboardPage: FC<WithUserProps> = () => {
     <Page title='Dashboard'>
       <Button onClick={onOpen}>Create Account</Button>
 
-      <AccountModal isOpen={isOpen} onClose={onClose} />
+      <AccountForm isOpen={isOpen} onClose={onClose} />
     </Page>
   );
 };
