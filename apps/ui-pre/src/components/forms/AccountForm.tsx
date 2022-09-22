@@ -14,10 +14,14 @@ import {
 import { Form, Formik, FormikConfig } from 'formik';
 import { TextInput } from '../inputs';
 // utils
+import { addDoc, collection } from 'firebase/firestore';
 import * as Yup from 'yup';
 // hooks
+import { useFirestore } from 'reactfire';
 import useFormatMessage from '@/hooks/useFormatMessage';
 import useAppToast from '@/hooks/useAppToast';
+// HOCs
+import withUser, { WithUserProps } from '@/hocs/withUser';
 
 type AccountFormConfig = FormikConfig<{ name: string }>;
 
@@ -44,29 +48,36 @@ const AccountFormComponent: AccountFormConfig['component'] = ({ isSubmitting }) 
   );
 };
 
-type AccountFormProps = {
+type AccountFormProps = WithUserProps & {
   isOpen: boolean;
   onClose: () => void;
 };
 
-const AccountForm: FC<AccountFormProps> = ({ isOpen, onClose }) => {
+const AccountForm: FC<AccountFormProps> = ({ isOpen, onClose, user }) => {
   const t = useFormatMessage();
   const toast = useAppToast();
+  const firestore = useFirestore();
+  const accountsRef = collection(firestore, 'accounts');
 
   const getInitialValues = (): AccountFormConfig['initialValues'] => ({ name: '' });
 
   const getValidationSchema = (): AccountFormConfig['validationSchema'] =>
     Yup.object().shape({ name: Yup.string().required(t('account.form.name.error.required')) });
 
-  const handleSubmit: AccountFormConfig['onSubmit'] = (values, { setSubmitting }) => {
-    console.log(values);
-    setSubmitting(false);
-    toast({
-      description: t('account.form.toast.success.description', { name: values.name }),
-      status: 'success',
-    });
-    onClose();
-    // TODO: redirect to account page
+  const handleSubmit: AccountFormConfig['onSubmit'] = async (values, { setSubmitting }) => {
+    try {
+      const payload = { name: values.name, userId: user.uid };
+      await addDoc(accountsRef, payload);
+      setSubmitting(false);
+      toast({
+        description: t('account.form.toast.success.description', { name: values.name }),
+        status: 'success',
+      });
+      onClose();
+      // TODO: redirect to account page
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -82,4 +93,4 @@ const AccountForm: FC<AccountFormProps> = ({ isOpen, onClose }) => {
   );
 };
 
-export default AccountForm;
+export default withUser(AccountForm);
