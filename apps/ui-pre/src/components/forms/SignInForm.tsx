@@ -1,3 +1,4 @@
+import { FirebaseError } from 'firebase/app';
 import { FormattedMessage } from 'react-intl';
 // components
 import { Box, Stack, Button, useColorModeValue, Text } from '@chakra-ui/react';
@@ -15,8 +16,6 @@ import { useAuth } from 'reactfire';
 import { useNavigate } from 'react-router-dom';
 import useFormatMessage from '@/hooks/useFormatMessage';
 import useAppToast from '@/hooks/useAppToast';
-// types
-import { FirebaseError } from 'firebase/app';
 
 const getErrorMessageId = (error: unknown): string | null => {
   const defaultErrorMessageId = 'signIn.form.toast.error.description';
