@@ -1,6 +1,6 @@
 import { FC } from 'react';
 // components
-import { Button, useDisclosure } from '@chakra-ui/react';
+import { Button, Spinner, useDisclosure } from '@chakra-ui/react';
 import Page from '@/components/layout/Page';
 import AccountForm from '@/components/forms/AccountForm';
 // hooks
@@ -20,7 +20,7 @@ const DashboardPage: FC<WithUserProps> = ({ user }) => {
     accounts.map((account, i) => <p key={`account-${i}`}>{account.name}</p>);
 
   const renderContent = () => {
-    if (isLoading) return null; // TODO: use spinner here
+    if (isLoading) return <Spinner color='green' />;
     if (accounts.length === 0) return renderNullState();
     return renderAccounts();
   };
