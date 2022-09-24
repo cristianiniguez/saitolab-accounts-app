@@ -6,6 +6,7 @@ import {
   Center,
   Container,
   Divider,
+  Flex,
   Grid,
   Heading,
   Spinner,
@@ -28,7 +29,9 @@ const DashboardPage: FC<WithUserProps> = ({ user }) => {
 
   const isLoading = status === 'loading';
 
-  const renderNullState = () => <Button onClick={onOpen}>Create Account</Button>;
+  const renderNullState = () => (
+    <Button onClick={onOpen}>{t('dashboard.button.create.account.label')}</Button>
+  );
 
   const renderAccounts = () => (
     <Grid
@@ -65,8 +68,13 @@ const DashboardPage: FC<WithUserProps> = ({ user }) => {
         </Box>
         <Box as='section'>
           <Container maxW='container.xl' py={4}>
-            <VStack alignItems='flex-start' divider={<Divider />} spacing={4}>
-              <Heading fontSize='lg'>{t('dashboard.subtitle.accounts')}</Heading>
+            <VStack alignItems='stretch' divider={<Divider />} spacing={4}>
+              <Flex alignItems='flex-end' justifyContent='space-between'>
+                <Heading fontSize='lg'>{t('dashboard.subtitle.accounts')}</Heading>
+                <Button colorScheme='green' onClick={onOpen}>
+                  {t('dashboard.button.create.account.label')}
+                </Button>
+              </Flex>
               {renderAccounts()}
             </VStack>
           </Container>

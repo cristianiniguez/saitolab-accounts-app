@@ -45,6 +45,7 @@
   "dashboard.pageTitle": "Dashboard",
   "dashboard.title": "Welcome {displayName}",
   "dashboard.subtitle.accounts": "Accounts",
+  "dashboard.button.create.account.label": "Create Account",
   "account.form.title": "New Account",
   "account.form.name.label": "Account name",
   "account.form.name.error.required": "Your account needs a name",
