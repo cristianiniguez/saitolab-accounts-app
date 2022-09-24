@@ -49,12 +49,7 @@ const DashboardPage: FC<WithUserProps> = ({ user }) => {
       gridTemplateColumns={{ lg: 'repeat(3, 1fr)', md: 'repeat(2, 1fr)', sm: '1fr' }}
     >
       {accounts.map((account, i) => (
-        <AccountCard
-          account={account as Account}
-          key={`account-${i}`}
-          onDelete={console.log}
-          onEdit={setAccount}
-        />
+        <AccountCard account={account as Account} key={`account-${i}`} onEdit={setAccount} />
       ))}
     </Grid>
   );

@@ -51,5 +51,10 @@
   "account.form.name.error.required": "Your account needs a name",
   "account.form.submitButton.label": "Save",
   "account.form.toast.success.description": "Account {name} saved",
+  "account.card.dialog.title": "Delete account",
+  "account.card.dialog.body": "Do you want to delete this account?",
+  "account.card.dialog.cancel.button.label": "Cancel",
+  "account.card.dialog.confirm.button.label": "Delete",
+  "account.card.toast.delete.success.description": "Account {name} deleted",
   "profile.pageTitle": "Profile"
 }
