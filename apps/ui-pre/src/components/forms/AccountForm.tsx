@@ -14,7 +14,7 @@ import {
 import { Form, Formik, FormikConfig } from 'formik';
 import { TextInput } from '../inputs';
 // utils
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 import * as Yup from 'yup';
 // hooks
 import { useFirestore } from 'reactfire';
@@ -49,17 +49,21 @@ const AccountFormComponent: AccountFormConfig['component'] = ({ isSubmitting }) 
 };
 
 type AccountFormProps = WithUserProps & {
+  account?: Account;
   isOpen: boolean;
   onClose: () => void;
 };
 
-const AccountForm: FC<AccountFormProps> = ({ isOpen, onClose, user }) => {
+const AccountForm: FC<AccountFormProps> = ({ account, isOpen, onClose, user }) => {
   const t = useFormatMessage();
   const toast = useAppToast();
   const firestore = useFirestore();
   const accountsRef = collection(firestore, 'accounts');
+  const accountRef = account && doc(firestore, 'accounts', account.NO_ID_FIELD);
 
-  const getInitialValues = (): AccountFormConfig['initialValues'] => ({ name: '' });
+  const getInitialValues = (): AccountFormConfig['initialValues'] => ({
+    name: account?.name || '',
+  });
 
   const getValidationSchema = (): AccountFormConfig['validationSchema'] =>
     Yup.object().shape({ name: Yup.string().required(t('account.form.name.error.required')) });
@@ -67,7 +71,9 @@ const AccountForm: FC<AccountFormProps> = ({ isOpen, onClose, user }) => {
   const handleSubmit: AccountFormConfig['onSubmit'] = async (values, { setSubmitting }) => {
     try {
       const payload = { name: values.name, userId: user.uid };
-      await addDoc(accountsRef, payload);
+      accountRef
+        ? await setDoc(accountRef, { name: values.name }, { merge: true })
+        : await addDoc(accountsRef, payload);
       setSubmitting(false);
       toast({
         description: t('account.form.toast.success.description', { name: values.name }),

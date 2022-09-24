@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 // components
 import {
   Box,
@@ -23,9 +23,18 @@ import useAccounts from '@/hooks/useAccounts';
 import withUser, { WithUserProps } from '@/hocs/withUser';
 
 const DashboardPage: FC<WithUserProps> = ({ user }) => {
+  const [account, setAccount] = useState<Account | undefined>(undefined);
   const t = useFormatMessage();
   const { data: accounts, status } = useAccounts(user);
   const { isOpen, onClose, onOpen } = useDisclosure();
+
+  useEffect(() => {
+    if (account) onOpen();
+  }, [account, onOpen]);
+
+  useEffect(() => {
+    if (!isOpen) setAccount(undefined);
+  }, [isOpen]);
 
   const isLoading = status === 'loading';
 
@@ -40,7 +49,12 @@ const DashboardPage: FC<WithUserProps> = ({ user }) => {
       gridTemplateColumns={{ lg: 'repeat(3, 1fr)', md: 'repeat(2, 1fr)', sm: '1fr' }}
     >
       {accounts.map((account, i) => (
-        <AccountCard account={account as Account} key={`account-${i}`} />
+        <AccountCard
+          account={account as Account}
+          key={`account-${i}`}
+          onDelete={console.log}
+          onEdit={setAccount}
+        />
       ))}
     </Grid>
   );
@@ -87,7 +101,7 @@ const DashboardPage: FC<WithUserProps> = ({ user }) => {
     <Page title='Dashboard'>
       {renderContent()}
 
-      <AccountForm isOpen={isOpen} onClose={onClose} />
+      <AccountForm account={account} isOpen={isOpen} onClose={onClose} />
     </Page>
   );
 };

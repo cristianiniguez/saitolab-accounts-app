@@ -50,6 +50,6 @@
   "account.form.name.label": "Account name",
   "account.form.name.error.required": "Your account needs a name",
   "account.form.submitButton.label": "Save",
-  "account.form.toast.success.description": "Account {name} created",
+  "account.form.toast.success.description": "Account {name} saved",
   "profile.pageTitle": "Profile"
 }
