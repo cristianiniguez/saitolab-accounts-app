@@ -16,11 +16,12 @@ import {
   IconButton,
   useDisclosure,
 } from '@chakra-ui/react';
-import { FaPencilAlt, FaTrash } from 'react-icons/fa';
+import { FaEye, FaPencilAlt, FaTrash } from 'react-icons/fa';
 // hooks
 import { useFirestore } from 'reactfire';
 import useAppToast from '@/hooks/useAppToast';
 import useFormatMessage from '@/hooks/useFormatMessage';
+import { useNavigate } from 'react-router-dom';
 
 type AccountCardProps = {
   account: Account;
@@ -29,6 +30,7 @@ type AccountCardProps = {
 
 const AccountCard: FC<AccountCardProps> = ({ account, onEdit }) => {
   const [deleting, setDeleting] = useState(false);
+  const navigate = useNavigate();
   const toast = useAppToast();
   const t = useFormatMessage();
   const firestore = useFirestore();
@@ -59,6 +61,13 @@ const AccountCard: FC<AccountCardProps> = ({ account, onEdit }) => {
           {account.name}
         </Heading>
         <ButtonGroup isAttached>
+          <IconButton
+            aria-label='See account'
+            colorScheme='green'
+            icon={<FaEye />}
+            onClick={() => navigate(`/account/${account.NO_ID_FIELD}`)}
+            size='sm'
+          />
           <IconButton
             aria-label='Update account'
             colorScheme='blue'

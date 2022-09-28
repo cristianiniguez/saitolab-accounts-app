@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
 import DashboardPage from './pages/DashboardPage';
+import AccountPage from './pages/AccountPage';
 
 const App = () => (
   <AppServicesProvider>
@@ -19,6 +20,7 @@ const App = () => (
         </Route>
         <Route element={<PrivateRoute />}>
           <Route element={<DashboardPage />} path='/dashboard' />
+          <Route element={<AccountPage />} path='/account/:id' />
         </Route>
       </Routes>
     </Router>
