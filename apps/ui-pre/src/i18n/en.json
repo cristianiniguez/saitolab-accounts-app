@@ -56,5 +56,8 @@
   "account.card.dialog.cancel.button.label": "Cancel",
   "account.card.dialog.confirm.button.label": "Delete",
   "account.card.toast.delete.success.description": "Account {name} deleted",
+  "account.not.found.title": "Account not found",
+  "account.not.found.subtitle": "Seems that this account does't exists",
+  "account.not.found.cta": "Go to Dashboard",
   "profile.pageTitle": "Profile"
 }

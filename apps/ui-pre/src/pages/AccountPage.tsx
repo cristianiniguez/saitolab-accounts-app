@@ -1,14 +1,19 @@
-import Page from '@/components/layout/Page';
-import useAccount from '@/hooks/useAccount';
+// components
 import { Box, Button, Center, Container, Heading, Icon, Spinner, Text } from '@chakra-ui/react';
-import { BiWallet } from 'react-icons/bi';
 import { Link, useParams } from 'react-router-dom';
+import { BiSearchAlt } from 'react-icons/bi';
+import Page from '@/components/layout/Page';
+// hooks
+import useFormatMessage from '@/hooks/useFormatMessage';
+import useAccount from '@/hooks/useAccount';
 
 const AccountPage = () => {
   const { id: accountId = '' } = useParams();
   const { data: account, status } = useAccount(accountId);
+  const t = useFormatMessage();
 
   const isLoading = status === 'loading';
+  const pageTitle = account && account.name;
 
   const renderContent = () => {
     if (isLoading)
@@ -26,13 +31,13 @@ const AccountPage = () => {
       return (
         <Box as='section'>
           <Container maxW='container.xl' py={16} textAlign='center'>
-            <Icon as={BiWallet} boxSize={64} />
-            <Heading mb={4}>Account not found</Heading>
+            <Icon as={BiSearchAlt} boxSize={64} />
+            <Heading mb={4}>{t('account.not.found.title')}</Heading>
             <Text fontSize='xl' mb={4}>
-              Seems that this account does't exists
+              {t('account.not.found.subtitle')}
             </Text>
             <Button as={Link} to='/dashboard'>
-              Go to Dashboard
+              {t('account.not.found.cta')}
             </Button>
           </Container>
         </Box>
@@ -48,7 +53,7 @@ const AccountPage = () => {
     );
   };
 
-  return <Page>{renderContent()}</Page>;
+  return <Page title={pageTitle}>{renderContent()}</Page>;
 };
 
 export default AccountPage;
