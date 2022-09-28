@@ -9,13 +9,16 @@ import {
   Flex,
   Grid,
   Heading,
+  Icon,
   Spinner,
+  Text,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react';
 import Page from '@/components/layout/Page';
 import AccountForm from '@/components/forms/AccountForm';
 import AccountCard from '@/components/cards/AccountCard';
+import { BiWallet } from 'react-icons/bi';
 // hooks
 import useFormatMessage from '@/hooks/useFormatMessage';
 import useAccounts from '@/hooks/useAccounts';
@@ -39,7 +42,16 @@ const DashboardPage: FC<WithUserProps> = ({ user }) => {
   const isLoading = status === 'loading';
 
   const renderNullState = () => (
-    <Button onClick={onOpen}>{t('dashboard.button.create.account.label')}</Button>
+    <Box as='section'>
+      <Container maxW='container.xl' py={16} textAlign='center'>
+        <Icon as={BiWallet} boxSize={64} />
+        <Heading mb={4}>You don't have any accounts yet</Heading>
+        <Text fontSize='xl' mb={4}>
+          Create your first one
+        </Text>
+        <Button onClick={onOpen}>{t('dashboard.button.create.account.label')}</Button>
+      </Container>
+    </Box>
   );
 
   const renderAccounts = () => (
