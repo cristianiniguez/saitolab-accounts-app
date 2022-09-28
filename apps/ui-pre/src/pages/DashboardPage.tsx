@@ -45,9 +45,9 @@ const DashboardPage: FC<WithUserProps> = ({ user }) => {
     <Box as='section'>
       <Container maxW='container.xl' py={16} textAlign='center'>
         <Icon as={BiWallet} boxSize={64} />
-        <Heading mb={4}>You don't have any accounts yet</Heading>
+        <Heading mb={4}>{t('dashboard.null.state.title')}</Heading>
         <Text fontSize='xl' mb={4}>
-          Create your first one
+          {t('dashboard.null.state.subtitle')}
         </Text>
         <Button onClick={onOpen}>{t('dashboard.button.create.account.label')}</Button>
       </Container>
