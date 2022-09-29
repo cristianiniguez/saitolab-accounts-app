@@ -62,21 +62,21 @@ const AccountCard: FC<AccountCardProps> = ({ account, onEdit }) => {
         </Heading>
         <ButtonGroup isAttached>
           <IconButton
-            aria-label='See account'
+            aria-label={t('account.button.open.aria.label')}
             colorScheme='green'
             icon={<FaEye />}
             onClick={() => navigate(`/account/${account.NO_ID_FIELD}`)}
             size='sm'
           />
           <IconButton
-            aria-label='Update account'
+            aria-label={t('account.button.edit.aria.label')}
             colorScheme='blue'
             icon={<FaPencilAlt />}
             onClick={() => onEdit(account)}
             size='sm'
           />
           <IconButton
-            aria-label='Delete account'
+            aria-label={t('account.button.delete.aria.label')}
             colorScheme='red'
             icon={<FaTrash />}
             onClick={onOpen}
