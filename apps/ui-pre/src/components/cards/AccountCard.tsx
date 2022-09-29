@@ -19,9 +19,11 @@ import {
 import { FaEye, FaPencilAlt, FaTrash } from 'react-icons/fa';
 // hooks
 import { useFirestore } from 'reactfire';
+import { useNavigate } from 'react-router-dom';
 import useAppToast from '@/hooks/useAppToast';
 import useFormatMessage from '@/hooks/useFormatMessage';
-import { useNavigate } from 'react-router-dom';
+// constants
+import { ROUTES } from '@/constants';
 
 type AccountCardProps = {
   account: Account;
@@ -65,7 +67,7 @@ const AccountCard: FC<AccountCardProps> = ({ account, onEdit }) => {
             aria-label={t('account.button.open.aria.label')}
             colorScheme='green'
             icon={<FaEye />}
-            onClick={() => navigate(`/account/${account.NO_ID_FIELD}`)}
+            onClick={() => navigate(`${ROUTES.ACCOUNT}/${account.NO_ID_FIELD}`)}
             size='sm'
           />
           <IconButton

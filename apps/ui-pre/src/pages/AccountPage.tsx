@@ -6,6 +6,8 @@ import Page from '@/components/layout/Page';
 // hooks
 import useFormatMessage from '@/hooks/useFormatMessage';
 import useAccount from '@/hooks/useAccount';
+// constants
+import { ROUTES } from '@/constants';
 
 const AccountPage = () => {
   const { id: accountId = '' } = useParams();
@@ -36,7 +38,7 @@ const AccountPage = () => {
             <Text fontSize='xl' mb={4}>
               {t('account.not.found.subtitle')}
             </Text>
-            <Button as={Link} to='/dashboard'>
+            <Button as={Link} colorScheme='green' to={ROUTES.DASHBOARD}>
               {t('account.not.found.cta')}
             </Button>
           </Container>
