@@ -19,6 +19,7 @@ import Page from '@/components/layout/Page';
 import AccountForm from '@/components/forms/AccountForm';
 import AccountCard from '@/components/cards/AccountCard';
 import { BiWallet } from 'react-icons/bi';
+import { AddIcon } from '@chakra-ui/icons';
 // hooks
 import useFormatMessage from '@/hooks/useFormatMessage';
 import useAccounts from '@/hooks/useAccounts';
@@ -49,7 +50,9 @@ const DashboardPage: FC<WithUserProps> = ({ user }) => {
         <Text fontSize='xl' mb={4}>
           {t('dashboard.null.state.subtitle')}
         </Text>
-        <Button onClick={onOpen}>{t('dashboard.button.create.account.label')}</Button>
+        <Button colorScheme='green' leftIcon={<AddIcon />} onClick={onOpen}>
+          {t('dashboard.button.create.account.label')}
+        </Button>
       </Container>
     </Box>
   );
@@ -92,8 +95,8 @@ const DashboardPage: FC<WithUserProps> = ({ user }) => {
             <VStack alignItems='stretch' divider={<Divider />} spacing={4}>
               <Flex alignItems='flex-end' justifyContent='space-between'>
                 <Heading fontSize='lg'>{t('dashboard.subtitle.accounts')}</Heading>
-                <Button colorScheme='green' onClick={onOpen}>
-                  {t('dashboard.button.create.account.label')}
+                <Button colorScheme='green' leftIcon={<AddIcon />} onClick={onOpen}>
+                  {t('dashboard.button.new.label')}
                 </Button>
               </Flex>
               {renderAccounts()}

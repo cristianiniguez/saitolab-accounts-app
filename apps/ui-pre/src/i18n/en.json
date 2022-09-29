@@ -46,6 +46,7 @@
   "dashboard.title": "Welcome {displayName}",
   "dashboard.subtitle.accounts": "Accounts",
   "dashboard.button.create.account.label": "Create Account",
+  "dashboard.button.new.label": "New",
   "dashboard.null.state.title": "You don't have any accounts yet",
   "dashboard.null.state.subtitle": "Create your first one",
   "account.form.title": "New Account",
