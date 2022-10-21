@@ -9,13 +9,15 @@ import {
   AlertDialogOverlay,
   Button,
 } from '@chakra-ui/react';
+// hooks
+import useFormatMessage from '@/hooks/useFormatMessage';
 
 type DialogProps = {
   body: ReactNode;
   cancelButton?: {
     label: string;
   };
-  closeOnOverlayClick: boolean;
+  closeOnOverlayClick?: boolean;
   confirmButton: {
     isLoading: boolean;
     label: string;
@@ -28,13 +30,14 @@ type DialogProps = {
 
 const Dialog: FC<DialogProps> = ({
   body,
-  cancelButton = { label: 'Cancel' },
+  cancelButton,
   closeOnOverlayClick = false,
   confirmButton,
   header,
   isOpen,
   onClose,
 }) => {
+  const t = useFormatMessage();
   const cancelRef = useRef<HTMLButtonElement>(null);
 
   return (
@@ -49,11 +52,12 @@ const Dialog: FC<DialogProps> = ({
           <AlertDialogHeader fontSize='lg' fontWeight='bold'>
             {header}
           </AlertDialogHeader>
+
           <AlertDialogBody>{body}</AlertDialogBody>
 
           <AlertDialogFooter>
             <Button onClick={onClose} ref={cancelRef}>
-              {cancelButton.label}
+              {cancelButton?.label || t('common.cancel')}
             </Button>
 
             <Button
