@@ -54,6 +54,7 @@
   "account.form.name.error.required": "Your account needs a name",
   "account.form.submitButton.label": "Save",
   "account.form.toast.success.description": "Account {name} saved",
+  "account.form.toast.error.description": "Something wrong happened",
   "account.button.open.aria.label": "Open account",
   "account.button.edit.aria.label": "Edit account",
   "account.button.delete.aria.label": "Delete account",

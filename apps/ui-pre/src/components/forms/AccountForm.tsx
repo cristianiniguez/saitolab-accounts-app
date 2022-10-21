@@ -25,29 +25,6 @@ import withUser, { WithUserProps } from '@/hocs/withUser';
 
 type AccountFormConfig = FormikConfig<{ name: string }>;
 
-const AccountFormComponent: AccountFormConfig['component'] = ({ isSubmitting }) => {
-  const t = useFormatMessage();
-
-  return (
-    <ModalContent as={Form}>
-      <ModalHeader>{t('account.form.title')}</ModalHeader>
-      <ModalCloseButton />
-
-      <ModalBody>
-        <Stack spacing={4}>
-          <TextInput id='name' label={t('account.form.name.label')} name='name' />
-        </Stack>
-      </ModalBody>
-
-      <ModalFooter>
-        <Button color='white' colorScheme='green' isLoading={isSubmitting} type='submit'>
-          {t('account.form.submitButton.label')}
-        </Button>
-      </ModalFooter>
-    </ModalContent>
-  );
-};
-
 type AccountFormProps = WithUserProps & {
   account?: Account;
   isOpen: boolean;
@@ -68,34 +45,62 @@ const AccountForm: FC<AccountFormProps> = ({ account, isOpen, onClose, user }) =
   const getValidationSchema = (): AccountFormConfig['validationSchema'] =>
     Yup.object().shape({ name: Yup.string().required(t('account.form.name.error.required')) });
 
-  const handleSubmit: AccountFormConfig['onSubmit'] = async (values, { setSubmitting }) => {
+  const handleSubmit: AccountFormConfig['onSubmit'] = async (
+    values,
+    { resetForm, setSubmitting },
+  ) => {
     try {
       const payload = { name: values.name, userId: user.uid };
-      accountRef
+      accountRef // if no accountRef, the user is creating the account
         ? await setDoc(accountRef, { name: values.name }, { merge: true })
         : await addDoc(accountsRef, payload);
-      setSubmitting(false);
       toast({
         description: t('account.form.toast.success.description', { name: values.name }),
         status: 'success',
       });
+      resetForm();
       onClose();
-      // TODO: redirect to account page
     } catch (error) {
       console.error(error);
+      toast({
+        description: t('account.form.toast.error.description'),
+        status: 'error',
+      });
+    } finally {
+      setSubmitting(false);
     }
   };
 
-  return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+  const renderForm: AccountFormConfig['component'] = ({ isSubmitting }) => (
+    <Modal closeOnOverlayClick={!isSubmitting} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <Formik
-        component={AccountFormComponent}
-        initialValues={getInitialValues()}
-        onSubmit={handleSubmit}
-        validationSchema={getValidationSchema()}
-      />
+      <ModalContent as={Form}>
+        <ModalHeader>{t('account.form.title')}</ModalHeader>
+        <ModalCloseButton />
+
+        <ModalBody>
+          <Stack spacing={4}>
+            <TextInput id='name' label={t('account.form.name.label')} name='name' />
+          </Stack>
+        </ModalBody>
+
+        <ModalFooter>
+          <Button color='white' colorScheme='green' isLoading={isSubmitting} type='submit'>
+            {t('account.form.submitButton.label')}
+          </Button>
+        </ModalFooter>
+      </ModalContent>
     </Modal>
+  );
+
+  return (
+    <Formik
+      component={renderForm}
+      initialValues={getInitialValues()}
+      key={account?.NO_ID_FIELD}
+      onSubmit={handleSubmit}
+      validationSchema={getValidationSchema()}
+    />
   );
 };
 
