@@ -75,6 +75,7 @@ const AccountCard: FC<AccountCardProps> = ({ account, onEdit }) => {
 
       <Dialog
         body={t('account.card.dialog.body')}
+        closeOnOverlayClick={!deleting}
         confirmButton={{
           isLoading: deleting,
           label: t('account.card.dialog.confirm.button.label'),

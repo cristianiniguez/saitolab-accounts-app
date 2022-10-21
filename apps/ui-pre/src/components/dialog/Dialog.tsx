@@ -15,6 +15,7 @@ type DialogProps = {
   cancelButton?: {
     label: string;
   };
+  closeOnOverlayClick: boolean;
   confirmButton: {
     isLoading: boolean;
     label: string;
@@ -28,6 +29,7 @@ type DialogProps = {
 const Dialog: FC<DialogProps> = ({
   body,
   cancelButton = { label: 'Cancel' },
+  closeOnOverlayClick = false,
   confirmButton,
   header,
   isOpen,
@@ -36,7 +38,12 @@ const Dialog: FC<DialogProps> = ({
   const cancelRef = useRef<HTMLButtonElement>(null);
 
   return (
-    <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
+    <AlertDialog
+      closeOnOverlayClick={closeOnOverlayClick}
+      isOpen={isOpen}
+      leastDestructiveRef={cancelRef}
+      onClose={onClose}
+    >
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize='lg' fontWeight='bold'>
