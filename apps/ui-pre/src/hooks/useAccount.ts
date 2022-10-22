@@ -4,7 +4,8 @@ import { useFirestore, useFirestoreDocData } from 'reactfire';
 const useAccount = (accountId: string) => {
   const firestore = useFirestore();
   const ref = doc(firestore, 'accounts', accountId);
-  return useFirestoreDocData(ref);
+  const { data, ...rest } = useFirestoreDocData(ref);
+  return { data: data as Account, ...rest };
 };
 
 export default useAccount;

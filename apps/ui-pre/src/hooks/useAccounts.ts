@@ -5,7 +5,10 @@ import { useFirestore, useFirestoreCollectionData } from 'reactfire';
 const useAccounts = (user: User) => {
   const firestore = useFirestore();
   const accountsRef = collection(firestore, 'accounts');
-  return useFirestoreCollectionData(query(accountsRef, where('userId', '==', user.uid)));
+  const { data, ...rest } = useFirestoreCollectionData(
+    query(accountsRef, where('userId', '==', user.uid)),
+  );
+  return { data: data as Account[], ...rest };
 };
 
 export default useAccounts;
