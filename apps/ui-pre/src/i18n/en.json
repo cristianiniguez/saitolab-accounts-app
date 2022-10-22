@@ -67,5 +67,12 @@
   "account.not.found.title": "Account not found",
   "account.not.found.subtitle": "Seems that this account does't exists",
   "account.not.found.cta": "Go to Dashboard",
+  "account.null.state.title": "This account seems to not have moves",
+  "account.null.state.subtitle": "Create the first one",
+  "account.button.create.move.label": "Create move",
+  "move.form.title": "New Move",
+  "move.form.detail.label": "Detail",
+  "move.form.detail.error.required": "A move needs a reason why is created for",
+  "move.form.submitButton.label": "Save",
   "profile.pageTitle": "Profile"
 }
