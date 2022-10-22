@@ -12,7 +12,7 @@ import {
   ModalOverlay,
   Stack,
 } from '@chakra-ui/react';
-import { NumberInput, TextInput } from '../inputs';
+import { DateInput, NumberInput, TextInput } from '../inputs';
 // utils
 import * as Yup from 'yup';
 // hooks
@@ -35,7 +35,7 @@ const MoveForm: FC<MoveFormProps> = ({ isOpen, onClose }) => {
 
   const getInitialValues = (): MoveFormConfig['initialValues'] => ({
     amount: 0,
-    date: '01-01-2022',
+    date: '2022-01-01',
     detail: '',
     type: 'income',
   });
@@ -45,7 +45,7 @@ const MoveForm: FC<MoveFormProps> = ({ isOpen, onClose }) => {
       amount: Yup.number()
         .moreThan(0, t('move.form.amount.error.greater.than.zero'))
         .required(t('move.form.amount.error.greater.than.zero')),
-      date: Yup.string().required(),
+      date: Yup.string().required(t('move.form.date.error.required')),
       detail: Yup.string().required(t('move.form.detail.error.required')),
       type: Yup.string().required(),
     });
@@ -66,6 +66,7 @@ const MoveForm: FC<MoveFormProps> = ({ isOpen, onClose }) => {
             <Stack spacing={4}>
               <TextInput id='detail' label={t('move.form.detail.label')} name='detail' />
               <NumberInput id='amount' label={t('move.form.amount.label')} name='amount' />
+              <DateInput id='date' label={t('move.form.date.label')} name='date' />
             </Stack>
           </ModalBody>
 

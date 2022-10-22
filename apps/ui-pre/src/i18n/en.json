@@ -75,6 +75,8 @@
   "move.form.detail.error.required": "A move needs a reason why is created for",
   "move.form.amount.label": "Amount",
   "move.form.amount.error.greater.than.zero": "The amount should be greater than 0",
+  "move.form.date.label": "Date",
+  "move.form.date.error.required": "A move needs a date when happened",
   "move.form.submitButton.label": "Save",
   "profile.pageTitle": "Profile"
 }
