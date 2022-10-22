@@ -82,5 +82,7 @@
   "move.form.type.option.outcome.label": "Outcome",
   "move.form.type.error.required": "Type is required",
   "move.form.submitButton.label": "Save",
+  "move.form.toast.success.description": "Move saved",
+  "move.form.toast.error.description": "Something wrong happened",
   "profile.pageTitle": "Profile"
 }

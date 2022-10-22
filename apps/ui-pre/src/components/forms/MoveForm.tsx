@@ -17,6 +17,9 @@ import { DateInput, NumberInput, SelectInput, TextInput } from '../inputs';
 import * as Yup from 'yup';
 // hooks
 import useFormatMessage from '@/hooks/useFormatMessage';
+import { useFirestore } from 'reactfire';
+import { addDoc, collection } from 'firebase/firestore';
+import useAppToast from '@/hooks/useAppToast';
 
 type MoveFormConfig = FormikConfig<{
   detail: string;
@@ -26,12 +29,16 @@ type MoveFormConfig = FormikConfig<{
 }>;
 
 type MoveFormProps = {
+  account: Account;
   isOpen: boolean;
   onClose: () => void;
 };
 
-const MoveForm: FC<MoveFormProps> = ({ isOpen, onClose }) => {
+const MoveForm: FC<MoveFormProps> = ({ account, isOpen, onClose }) => {
   const t = useFormatMessage();
+  const toast = useAppToast();
+  const firestore = useFirestore();
+  const movesRef = collection(firestore, 'accounts', account.NO_ID_FIELD, 'moves');
 
   const getInitialValues = (): MoveFormConfig['initialValues'] => ({
     amount: 0,
@@ -50,8 +57,24 @@ const MoveForm: FC<MoveFormProps> = ({ isOpen, onClose }) => {
       type: Yup.string().required(t('move.form.type.error.required')),
     });
 
-  const handleSubmit: MoveFormConfig['onSubmit'] = (values) => {
-    console.log(values);
+  const handleSubmit: MoveFormConfig['onSubmit'] = async (values, { resetForm, setSubmitting }) => {
+    try {
+      await addDoc(movesRef, values);
+      toast({
+        description: t('move.form.toast.success.description'),
+        status: 'success',
+      });
+      resetForm();
+      onClose();
+    } catch (error) {
+      console.error(error);
+      toast({
+        description: t('move.form.toast.error.description'),
+        status: 'error',
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const renderForm: MoveFormConfig['component'] = ({ isSubmitting }) => {

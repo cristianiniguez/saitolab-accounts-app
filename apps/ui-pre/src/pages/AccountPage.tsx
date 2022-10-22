@@ -87,7 +87,7 @@ const AccountPage = () => {
     <Page title={pageTitle}>
       {renderContent()}
 
-      <MoveForm isOpen={isOpen} onClose={onClose} />
+      {account && <MoveForm account={account} isOpen={isOpen} onClose={onClose} />}
     </Page>
   );
 };
