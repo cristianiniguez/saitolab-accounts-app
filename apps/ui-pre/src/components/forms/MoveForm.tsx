@@ -12,7 +12,7 @@ import {
   ModalOverlay,
   Stack,
 } from '@chakra-ui/react';
-import { DateInput, NumberInput, TextInput } from '../inputs';
+import { DateInput, NumberInput, SelectInput, TextInput } from '../inputs';
 // utils
 import * as Yup from 'yup';
 // hooks
@@ -47,7 +47,7 @@ const MoveForm: FC<MoveFormProps> = ({ isOpen, onClose }) => {
         .required(t('move.form.amount.error.greater.than.zero')),
       date: Yup.string().required(t('move.form.date.error.required')),
       detail: Yup.string().required(t('move.form.detail.error.required')),
-      type: Yup.string().required(),
+      type: Yup.string().required(t('move.form.type.error.required')),
     });
 
   const handleSubmit: MoveFormConfig['onSubmit'] = (values) => {
@@ -55,6 +55,11 @@ const MoveForm: FC<MoveFormProps> = ({ isOpen, onClose }) => {
   };
 
   const renderForm: MoveFormConfig['component'] = ({ isSubmitting }) => {
+    const typeOptions = [
+      { label: t('move.form.type.option.income.label'), value: 'income' },
+      { label: t('move.form.type.option.outcome.label'), value: 'outcome' },
+    ];
+
     return (
       <Modal closeOnOverlayClick={!isSubmitting} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -67,6 +72,12 @@ const MoveForm: FC<MoveFormProps> = ({ isOpen, onClose }) => {
               <TextInput id='detail' label={t('move.form.detail.label')} name='detail' />
               <NumberInput id='amount' label={t('move.form.amount.label')} name='amount' />
               <DateInput id='date' label={t('move.form.date.label')} name='date' />
+              <SelectInput
+                id='type'
+                label={t('move.form.type.label')}
+                name='type'
+                options={typeOptions}
+              />
             </Stack>
           </ModalBody>
 

@@ -77,6 +77,10 @@
   "move.form.amount.error.greater.than.zero": "The amount should be greater than 0",
   "move.form.date.label": "Date",
   "move.form.date.error.required": "A move needs a date when happened",
+  "move.form.type.label": "Type",
+  "move.form.type.option.income.label": "Income",
+  "move.form.type.option.outcome.label": "Outcome",
+  "move.form.type.error.required": "Type is required",
   "move.form.submitButton.label": "Save",
   "profile.pageTitle": "Profile"
 }
