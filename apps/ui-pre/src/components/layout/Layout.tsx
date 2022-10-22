@@ -10,7 +10,7 @@ type LayoutProps = {
 const Layout: FC<LayoutProps> = ({ children, isPublic }) => (
   <VStack alignItems='stretch' bg={useColorModeValue('green.50', 'gray.800')} minH='100vh'>
     {!isPublic && <Header />}
-    <VStack as='main' flexGrow={1}>
+    <VStack alignItems='stretch' as='main' flexGrow={1}>
       {children}
     </VStack>
   </VStack>
