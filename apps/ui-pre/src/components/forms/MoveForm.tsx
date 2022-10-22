@@ -12,7 +12,7 @@ import {
   ModalOverlay,
   Stack,
 } from '@chakra-ui/react';
-import { TextInput } from '../inputs';
+import { NumberInput, TextInput } from '../inputs';
 // utils
 import * as Yup from 'yup';
 // hooks
@@ -42,7 +42,9 @@ const MoveForm: FC<MoveFormProps> = ({ isOpen, onClose }) => {
 
   const getValidationSchema = () =>
     Yup.object().shape({
-      amount: Yup.number().moreThan(0, 'The amount should be greater than 0'),
+      amount: Yup.number()
+        .moreThan(0, t('move.form.amount.error.greater.than.zero'))
+        .required(t('move.form.amount.error.greater.than.zero')),
       date: Yup.string().required(),
       detail: Yup.string().required(t('move.form.detail.error.required')),
       type: Yup.string().required(),
@@ -63,6 +65,7 @@ const MoveForm: FC<MoveFormProps> = ({ isOpen, onClose }) => {
           <ModalBody>
             <Stack spacing={4}>
               <TextInput id='detail' label={t('move.form.detail.label')} name='detail' />
+              <NumberInput id='amount' label={t('move.form.amount.label')} name='amount' />
             </Stack>
           </ModalBody>
 
