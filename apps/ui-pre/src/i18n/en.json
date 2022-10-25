@@ -4,6 +4,7 @@
   "common.sign.in": "Sign In",
   "common.sign.up": "Sign Up",
   "common.sign.out": "Sign Out",
+  "common.new": "New",
   "common.cancel": "Cancel",
   "open.menu": "Open Menu",
   "home.title": "Welcome to Saito Lab Accounts",
@@ -69,6 +70,7 @@
   "account.not.found.cta": "Go to Dashboard",
   "account.null.state.title": "This account seems to not have moves",
   "account.null.state.subtitle": "Create the first one",
+  "account.subtitle.moves": "Moves",
   "account.button.create.move.label": "Create move",
   "move.form.title": "New Move",
   "move.form.detail.label": "Detail",
@@ -84,5 +86,9 @@
   "move.form.submitButton.label": "Save",
   "move.form.toast.success.description": "Move saved",
   "move.form.toast.error.description": "Something wrong happened",
+  "moves.table.column.detail": "Detail",
+  "moves.table.column.date": "Date",
+  "moves.table.column.income": "Income",
+  "moves.table.column.outcome": "Outcome",
   "profile.pageTitle": "Profile"
 }
