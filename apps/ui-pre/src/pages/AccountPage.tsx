@@ -8,7 +8,7 @@ import useFormatMessage from '@/hooks/useFormatMessage';
 import useAccount from '@/hooks/useAccount';
 // constants
 import { ROUTES } from '@/constants';
-import MovesTable from '@/components/tables/MovesTable';
+import MovesSection from '@/components/sections/MovesSection';
 
 const AccountPage = () => {
   const { id: accountId = '' } = useParams();
@@ -55,7 +55,7 @@ const AccountPage = () => {
           </Container>
         </Box>
 
-        <MovesTable account={account} />
+        <MovesSection account={account} />
       </>
     );
   };
