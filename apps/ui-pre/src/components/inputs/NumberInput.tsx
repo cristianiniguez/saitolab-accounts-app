@@ -21,14 +21,20 @@ type NumberInputProps = {
 };
 
 const NumberInput: FC<NumberInputProps> = ({ id, label, max, min, name, step }) => {
-  const [field, meta] = useField(name);
+  const [field, meta, helpers] = useField(name);
 
   return (
     <FormControl id={id} isInvalid={meta.touched && !!meta.error}>
       <FormLabel>{label}</FormLabel>
 
-      <NumberInputChakra>
-        <NumberInputField {...field} max={max} min={min} step={step} />
+      <NumberInputChakra
+        {...field}
+        max={max}
+        min={min}
+        onChange={(e) => helpers.setValue(+e)}
+        step={step}
+      >
+        <NumberInputField />
         <NumberInputStepper>
           <NumberIncrementStepper />
           <NumberDecrementStepper />
