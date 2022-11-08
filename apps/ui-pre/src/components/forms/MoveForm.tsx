@@ -14,11 +14,11 @@ import {
 } from '@chakra-ui/react';
 import { DateInput, NumberInput, SelectInput, TextInput } from '../inputs';
 // utils
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 import * as Yup from 'yup';
 // hooks
-import useFormatMessage from '@/hooks/useFormatMessage';
 import { useFirestore } from 'reactfire';
-import { addDoc, collection } from 'firebase/firestore';
+import useFormatMessage from '@/hooks/useFormatMessage';
 import useAppToast from '@/hooks/useAppToast';
 
 type MoveFormConfig = FormikConfig<{
@@ -31,20 +31,23 @@ type MoveFormConfig = FormikConfig<{
 type MoveFormProps = {
   account: Account;
   isOpen: boolean;
+  move?: Move;
   onClose: () => void;
 };
 
-const MoveForm: FC<MoveFormProps> = ({ account, isOpen, onClose }) => {
+const MoveForm: FC<MoveFormProps> = ({ account, isOpen, move, onClose }) => {
   const t = useFormatMessage();
   const toast = useAppToast();
   const firestore = useFirestore();
   const movesRef = collection(firestore, 'accounts', account.NO_ID_FIELD, 'moves');
+  const moveRef =
+    move && doc(firestore, 'accounts', account.NO_ID_FIELD, 'moves', move.NO_ID_FIELD);
 
   const getInitialValues = (): MoveFormConfig['initialValues'] => ({
-    amount: 0,
-    date: '2022-01-01',
-    detail: '',
-    type: 'income',
+    amount: move?.amount || 0,
+    date: move?.date || '2022-01-01',
+    detail: move?.detail || '',
+    type: move?.type || 'income',
   });
 
   const getValidationSchema = () =>
@@ -59,7 +62,7 @@ const MoveForm: FC<MoveFormProps> = ({ account, isOpen, onClose }) => {
 
   const handleSubmit: MoveFormConfig['onSubmit'] = async (values, { resetForm, setSubmitting }) => {
     try {
-      await addDoc(movesRef, values);
+      moveRef ? await setDoc(moveRef, values, { merge: true }) : await addDoc(movesRef, values);
       toast({
         description: t('move.form.toast.success.description'),
         status: 'success',
@@ -118,6 +121,7 @@ const MoveForm: FC<MoveFormProps> = ({ account, isOpen, onClose }) => {
     <Formik
       component={renderForm}
       initialValues={getInitialValues()}
+      key={move?.NO_ID_FIELD}
       onSubmit={handleSubmit}
       validationSchema={getValidationSchema()}
     />

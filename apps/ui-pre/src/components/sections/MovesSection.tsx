@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 // components
 import {
   Box,
@@ -28,8 +28,17 @@ type MovesSectionProps = {
 
 const MovesSection: FC<MovesSectionProps> = ({ account }) => {
   const { data: moves, status } = useMoves(account);
+  const [move, setMove] = useState<Move | undefined>(undefined);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const t = useFormatMessage();
+
+  useEffect(() => {
+    if (move) onOpen();
+  }, [move, onOpen]);
+
+  useEffect(() => {
+    if (!isOpen) setMove(undefined);
+  }, [isOpen]);
 
   const isLoading = status === 'loading';
 
@@ -72,7 +81,7 @@ const MovesSection: FC<MovesSectionProps> = ({ account }) => {
               </Button>
             </Flex>
 
-            <MovesTable moves={moves} />
+            <MovesTable account={account} moves={moves} onEdit={setMove} />
           </VStack>
         </Container>
       </Box>
@@ -83,7 +92,7 @@ const MovesSection: FC<MovesSectionProps> = ({ account }) => {
     <>
       {renderContent()}
 
-      <MoveForm account={account} isOpen={isOpen} onClose={onClose} />
+      <MoveForm account={account} isOpen={isOpen} move={move} onClose={onClose} />
     </>
   );
 };
