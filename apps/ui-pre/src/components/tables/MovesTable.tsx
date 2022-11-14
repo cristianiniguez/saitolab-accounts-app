@@ -46,7 +46,7 @@ const MovesTable: FC<MovesTableProps> = ({ account, moves, onEdit }) => {
   );
 
   const handleDelete = async (move: Move) => {
-    const moveRef = doc(firestore, 'accounts', account.NO_ID_FIELD, 'moves', move.NO_ID_FIELD);
+    const moveRef = doc(firestore, 'accounts', account.id, 'moves', move.id);
 
     try {
       setDeleting(true);
@@ -104,7 +104,7 @@ const MovesTable: FC<MovesTableProps> = ({ account, moves, onEdit }) => {
           </Thead>
           <Tbody>
             {moves.map((move) => (
-              <Tr key={move.NO_ID_FIELD}>
+              <Tr key={move.id}>
                 <Td>{move.detail}</Td>
                 <Td>{move.date}</Td>
                 <Td isNumeric>{move.type === 'income' && move.amount}</Td>

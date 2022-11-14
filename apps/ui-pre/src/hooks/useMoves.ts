@@ -3,8 +3,8 @@ import { useFirestore, useFirestoreCollectionData } from 'reactfire';
 
 const useMoves = (account: Account) => {
   const firestore = useFirestore();
-  const movesRef = collection(firestore, 'accounts', account.NO_ID_FIELD, 'moves');
-  const { data, ...rest } = useFirestoreCollectionData(movesRef);
+  const movesRef = collection(firestore, 'accounts', account.id, 'moves');
+  const { data, ...rest } = useFirestoreCollectionData(movesRef, { idField: 'id' });
   return { data: data as Move[], ...rest };
 };
 

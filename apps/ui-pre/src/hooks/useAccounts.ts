@@ -7,6 +7,7 @@ const useAccounts = (user: User) => {
   const accountsRef = collection(firestore, 'accounts');
   const { data, ...rest } = useFirestoreCollectionData(
     query(accountsRef, where('userId', '==', user.uid)),
+    { idField: 'id' },
   );
   return { data: data as Account[], ...rest };
 };

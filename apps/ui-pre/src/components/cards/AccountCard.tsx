@@ -23,7 +23,7 @@ const AccountCard: FC<AccountCardProps> = ({ account, onEdit }) => {
   const toast = useAppToast();
   const t = useFormatMessage();
   const firestore = useFirestore();
-  const accountRef = doc(firestore, 'accounts', account.NO_ID_FIELD);
+  const accountRef = doc(firestore, 'accounts', account.id);
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const handleDelete = async () => {
@@ -53,7 +53,7 @@ const AccountCard: FC<AccountCardProps> = ({ account, onEdit }) => {
             aria-label={t('account.button.open.aria.label')}
             colorScheme='green'
             icon={<FaEye />}
-            onClick={() => navigate(`${ROUTES.ACCOUNT}/${account.NO_ID_FIELD}`)}
+            onClick={() => navigate(`${ROUTES.ACCOUNT}/${account.id}`)}
             size='sm'
           />
           <IconButton

@@ -36,7 +36,7 @@ const AccountForm: FC<AccountFormProps> = ({ account, isOpen, onClose, user }) =
   const toast = useAppToast();
   const firestore = useFirestore();
   const accountsRef = collection(firestore, 'accounts');
-  const accountRef = account && doc(firestore, 'accounts', account.NO_ID_FIELD);
+  const accountRef = account && doc(firestore, 'accounts', account.id);
 
   const getInitialValues = (): AccountFormConfig['initialValues'] => ({
     name: account?.name || '',
@@ -97,7 +97,7 @@ const AccountForm: FC<AccountFormProps> = ({ account, isOpen, onClose, user }) =
     <Formik
       component={renderForm}
       initialValues={getInitialValues()}
-      key={account?.NO_ID_FIELD}
+      key={account?.id}
       onSubmit={handleSubmit}
       validationSchema={getValidationSchema()}
     />

@@ -1,5 +1,5 @@
 interface Account {
-  NO_ID_FIELD: string;
+  id: string;
   name: string;
   userId: string;
 }
@@ -7,7 +7,7 @@ interface Account {
 type MoveType = 'income' | 'outcome';
 
 interface Move {
-  NO_ID_FIELD: string;
+  id: string;
   detail: string;
   amount: number;
   date: string;

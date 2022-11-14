@@ -85,7 +85,7 @@ const AccountsSection: FC<WithUserProps> = ({ user }) => {
               {accounts.map((account) => (
                 <AccountCard
                   account={account}
-                  key={`account-${account.NO_ID_FIELD}`}
+                  key={`account-${account.id}`}
                   onEdit={setFormAccount}
                 />
               ))}

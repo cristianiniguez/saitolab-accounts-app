@@ -39,9 +39,8 @@ const MoveForm: FC<MoveFormProps> = ({ account, isOpen, move, onClose }) => {
   const t = useFormatMessage();
   const toast = useAppToast();
   const firestore = useFirestore();
-  const movesRef = collection(firestore, 'accounts', account.NO_ID_FIELD, 'moves');
-  const moveRef =
-    move && doc(firestore, 'accounts', account.NO_ID_FIELD, 'moves', move.NO_ID_FIELD);
+  const movesRef = collection(firestore, 'accounts', account.id, 'moves');
+  const moveRef = move && doc(firestore, 'accounts', account.id, 'moves', move.id);
 
   const getInitialValues = (): MoveFormConfig['initialValues'] => ({
     amount: move?.amount || 0,
@@ -121,7 +120,7 @@ const MoveForm: FC<MoveFormProps> = ({ account, isOpen, move, onClose }) => {
     <Formik
       component={renderForm}
       initialValues={getInitialValues()}
-      key={move?.NO_ID_FIELD}
+      key={move?.id}
       onSubmit={handleSubmit}
       validationSchema={getValidationSchema()}
     />
