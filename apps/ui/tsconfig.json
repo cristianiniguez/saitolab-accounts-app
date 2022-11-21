@@ -1,8 +1,13 @@
 {
   "extends": "tsconfig/ui.json",
   "compilerOptions": {
-    "baseUrl": "./",
-    "target": "ES5"
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": false,
+    "jsx": "react-jsx",
+    "paths": { "@*": ["./src*"] },
+    "useDefineForClassFields": true,
+    "target": "ESNext"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "include": ["src", "app.d.ts"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
