@@ -1,8 +1,20 @@
 // components
-import { Box, Button, Center, Container, Heading, Icon, Spinner, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Center,
+  Container,
+  Flex,
+  Heading,
+  Icon,
+  Spinner,
+  Text,
+} from '@chakra-ui/react';
 import { Link, useParams } from 'react-router-dom';
 import { BiSearchAlt } from 'react-icons/bi';
 import Page from '@/components/layout/Page';
+import AccountBalanceBadge from '@/components/badges/AccountBalanceBadge';
+import MovesSection from '@/components/sections/MovesSection';
 // hooks
 import useFormatMessage from '@/hooks/useFormatMessage';
 import useAccount from '@/hooks/useAccount';
@@ -14,11 +26,8 @@ const AccountPage = () => {
   const { data: account, status } = useAccount(accountId);
   const t = useFormatMessage();
 
-  const isLoading = status === 'loading';
-  const pageTitle = account && account.name;
-
   const renderContent = () => {
-    if (isLoading)
+    if (status === 'loading')
       return (
         <Box as='section'>
           <Container maxW='container.xl' py={4}>
@@ -47,15 +56,22 @@ const AccountPage = () => {
     }
 
     return (
-      <Box as='section'>
-        <Container maxW='container.xl' py={4}>
-          <Heading mb={4}>{account.name}</Heading>
-        </Container>
-      </Box>
+      <>
+        <Box as='section'>
+          <Container maxW='container.xl' py={4}>
+            <Flex alignItems='flex-end' justify='space-between' mb={4}>
+              <Heading>{account.name}</Heading>
+              <AccountBalanceBadge account={account} fontSize='2xl' />
+            </Flex>
+          </Container>
+        </Box>
+
+        <MovesSection account={account} />
+      </>
     );
   };
 
-  return <Page title={pageTitle}>{renderContent()}</Page>;
+  return <Page title={account?.name}>{renderContent()}</Page>;
 };
 
 export default AccountPage;

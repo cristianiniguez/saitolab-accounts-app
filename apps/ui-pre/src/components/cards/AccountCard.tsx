@@ -4,6 +4,7 @@ import { deleteDoc, doc } from 'firebase/firestore';
 import { Box, ButtonGroup, Flex, Heading, IconButton, useDisclosure } from '@chakra-ui/react';
 import { FaEye, FaPencilAlt, FaTrash } from 'react-icons/fa';
 import Dialog from '../dialog/Dialog';
+import AccountBalanceBadge from '../badges/AccountBalanceBadge';
 // hooks
 import { useFirestore } from 'reactfire';
 import { useNavigate } from 'react-router-dom';
@@ -23,7 +24,7 @@ const AccountCard: FC<AccountCardProps> = ({ account, onEdit }) => {
   const toast = useAppToast();
   const t = useFormatMessage();
   const firestore = useFirestore();
-  const accountRef = doc(firestore, 'accounts', account.NO_ID_FIELD);
+  const accountRef = doc(firestore, 'accounts', account.id);
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const handleDelete = async () => {
@@ -44,16 +45,19 @@ const AccountCard: FC<AccountCardProps> = ({ account, onEdit }) => {
 
   return (
     <Box bgColor='white' borderRadius='md' boxShadow='md' p={4}>
-      <Flex alignItems='center' justifyContent='space-between'>
+      <Flex alignItems='center' gap={4} justifyContent='space-between'>
         <Heading as='h3' fontSize='md'>
           {account.name}
         </Heading>
+        <Box flexGrow={1} textAlign='end'>
+          <AccountBalanceBadge account={account} />
+        </Box>
         <ButtonGroup isAttached>
           <IconButton
             aria-label={t('account.button.open.aria.label')}
             colorScheme='green'
             icon={<FaEye />}
-            onClick={() => navigate(`${ROUTES.ACCOUNT}/${account.NO_ID_FIELD}`)}
+            onClick={() => navigate(`${ROUTES.ACCOUNT}/${account.id}`)}
             size='sm'
           />
           <IconButton

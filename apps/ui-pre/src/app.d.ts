@@ -1,5 +1,15 @@
 interface Account {
-  NO_ID_FIELD: string;
+  id: string;
   name: string;
   userId: string;
+}
+
+type MoveType = 'income' | 'outcome';
+
+interface Move {
+  id: string;
+  detail: string;
+  amount: number;
+  date: string;
+  type: MoveType;
 }
