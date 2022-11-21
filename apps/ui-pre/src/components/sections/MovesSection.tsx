@@ -22,9 +22,7 @@ import useMoves from '@/hooks/useMoves';
 import useFormatMessage from '@/hooks/useFormatMessage';
 import MovesTable from '../tables/MovesTable';
 
-type MovesSectionProps = {
-  account: Account;
-};
+type MovesSectionProps = { account: Account };
 
 const MovesSection: FC<MovesSectionProps> = ({ account }) => {
   const { data: moves, status } = useMoves(account);
@@ -40,10 +38,8 @@ const MovesSection: FC<MovesSectionProps> = ({ account }) => {
     if (!isOpen) setMove(undefined);
   }, [isOpen]);
 
-  const isLoading = status === 'loading';
-
   const renderContent = () => {
-    if (isLoading)
+    if (status === 'loading')
       return (
         <Box as='section'>
           <Container maxW='container.xl' py={4}>

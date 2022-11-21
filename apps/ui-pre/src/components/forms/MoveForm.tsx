@@ -62,18 +62,12 @@ const MoveForm: FC<MoveFormProps> = ({ account, isOpen, move, onClose }) => {
   const handleSubmit: MoveFormConfig['onSubmit'] = async (values, { resetForm, setSubmitting }) => {
     try {
       moveRef ? await setDoc(moveRef, values, { merge: true }) : await addDoc(movesRef, values);
-      toast({
-        description: t('move.form.toast.success.description'),
-        status: 'success',
-      });
+      toast({ description: t('move.form.toast.success.description'), status: 'success' });
       resetForm();
       onClose();
     } catch (error) {
       console.error(error);
-      toast({
-        description: t('move.form.toast.error.description'),
-        status: 'error',
-      });
+      toast({ description: t('move.form.toast.error.description'), status: 'error' });
     } finally {
       setSubmitting(false);
     }

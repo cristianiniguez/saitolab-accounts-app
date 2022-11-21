@@ -2,9 +2,7 @@ import { FC } from 'react';
 import { Badge, BadgeProps } from '@chakra-ui/react';
 import useAccountSummary from '@/hooks/useAccountSummary';
 
-type AccountBalanceBadgeProps = BadgeProps & {
-  account: Account;
-};
+type AccountBalanceBadgeProps = BadgeProps & { account: Account };
 
 const AccountBalanceBadge: FC<AccountBalanceBadgeProps> = ({ account, ...badgeProps }) => {
   const {

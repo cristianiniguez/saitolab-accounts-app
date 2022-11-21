@@ -2,10 +2,7 @@ import { FC } from 'react';
 import { useField } from 'formik';
 import { FormControl, FormErrorMessage, FormLabel, Select } from '@chakra-ui/react';
 
-type SelectInputOption = {
-  label: string;
-  value: string | number;
-};
+type SelectInputOption = { label: string; value: string | number };
 
 type SelectInputProps = {
   id: string;

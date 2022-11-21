@@ -13,13 +13,13 @@ import {
 import { Link, useParams } from 'react-router-dom';
 import { BiSearchAlt } from 'react-icons/bi';
 import Page from '@/components/layout/Page';
+import AccountBalanceBadge from '@/components/badges/AccountBalanceBadge';
+import MovesSection from '@/components/sections/MovesSection';
 // hooks
 import useFormatMessage from '@/hooks/useFormatMessage';
 import useAccount from '@/hooks/useAccount';
 // constants
 import { ROUTES } from '@/constants';
-import AccountBalanceBadge from '@/components/badges/AccountBalanceBadge';
-import MovesSection from '@/components/sections/MovesSection';
 
 const AccountPage = () => {
   const { id: accountId = '' } = useParams();
