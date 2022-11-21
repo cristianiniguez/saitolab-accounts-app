@@ -1,5 +1,5 @@
 {
-  "extends": ["custom", "next/core-web-vitals"],
+  "extends": ["custom", "plugin:react/jsx-runtime", "plugin:react-hooks/recommended"],
   "root": true,
   "rules": {
     "react/jsx-sort-props": "warn"
