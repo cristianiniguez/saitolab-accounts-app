@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from 'react';
+import { FC, useState } from 'react';
 // components
 import {
   ButtonGroup,
@@ -19,6 +19,7 @@ import Dialog from '../dialog/Dialog';
 import { useFirestore } from 'reactfire';
 import useFormatMessage from '@/hooks/useFormatMessage';
 import useAppToast from '@/hooks/useAppToast';
+import useAccountSummary from '@/hooks/useAccountSummary';
 // utils
 import { deleteDoc, doc } from 'firebase/firestore';
 
@@ -31,19 +32,14 @@ type MovesTableProps = {
 const MovesTable: FC<MovesTableProps> = ({ account, moves, onEdit }) => {
   const [move, setMove] = useState<Move | undefined>(undefined);
   const [deleting, setDeleting] = useState(false);
+  const {
+    data: { income, outcome },
+    status,
+  } = useAccountSummary(account);
   const firestore = useFirestore();
   const toast = useAppToast();
   const t = useFormatMessage();
   const { isOpen, onClose, onOpen } = useDisclosure();
-
-  const totalIncome = useMemo(
-    () => moves.filter((move) => move.type === 'income').reduce((a, b) => a + b.amount, 0),
-    [moves],
-  );
-  const totalOutcome = useMemo(
-    () => moves.filter((move) => move.type === 'outcome').reduce((a, b) => a + b.amount, 0),
-    [moves],
-  );
 
   const handleDelete = async (move: Move) => {
     const moveRef = doc(firestore, 'accounts', account.id, 'moves', move.id);
@@ -113,15 +109,17 @@ const MovesTable: FC<MovesTableProps> = ({ account, moves, onEdit }) => {
               </Tr>
             ))}
           </Tbody>
-          <Tfoot fontWeight='bold'>
-            <Tr>
-              <Td />
-              <Td />
-              <Td isNumeric>{totalIncome}</Td>
-              <Td isNumeric>{totalOutcome}</Td>
-              <Td />
-            </Tr>
-          </Tfoot>
+          {status !== 'loading' && (
+            <Tfoot fontWeight='bold'>
+              <Tr>
+                <Td />
+                <Td />
+                <Td isNumeric>{income}</Td>
+                <Td isNumeric>{outcome}</Td>
+                <Td />
+              </Tr>
+            </Tfoot>
+          )}
         </Table>
       </TableContainer>
 
