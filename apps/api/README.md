@@ -28,7 +28,7 @@ $ npm install
 $ cp .env.example .env
 
 # start postgresql and pgadmin docker containers
-$ docker compose -d pgadmin
+$ docker compose -d pgadmin-dev
 
 # run the migrations (this needs to be done only one time at the beginning and every time the entities are modified)
 $ npm run migration:run
