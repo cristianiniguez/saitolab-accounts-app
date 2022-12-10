@@ -1,7 +1,11 @@
 import { FC } from 'react';
+// components
 import { Box, Container, Heading } from '@chakra-ui/react';
 import Page from '@/components/layout/Page';
+import PreferencesSection from '@/components/sections/PreferencesSection';
+// hooks
 import useFormatMessage from '@/hooks/useFormatMessage';
+// HOCs
 import withUser, { WithUserProps } from '@/hocs/withUser';
 
 const ProfilePage: FC<WithUserProps> = ({ user }) => {
@@ -14,6 +18,8 @@ const ProfilePage: FC<WithUserProps> = ({ user }) => {
           <Heading mb={4}>{t('dashboard.title', { displayName: user.displayName })}</Heading>
         </Container>
       </Box>
+
+      <PreferencesSection />
     </Page>
   );
 };
