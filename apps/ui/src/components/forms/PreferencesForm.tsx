@@ -18,26 +18,28 @@ import useFormatMessage from '@/hooks/useFormatMessage';
 // utils
 import * as Yup from 'yup';
 import { useIntl } from 'react-intl';
+import withUser, { WithUserProps } from '@/hocs/withUser';
+import withPreferences, { WithPreferencesProps } from '@/hocs/withPreferences';
 
 type PreferencesFormConfig = FormikConfig<{
   name: string;
   currency: string;
 }>;
 
-type PreferencesFormProps = {
-  isOpen: boolean;
-  onClose: () => void;
-};
+type PreferencesFormProps = WithUserProps &
+  WithPreferencesProps & {
+    isOpen: boolean;
+    onClose: () => void;
+  };
 
 const CURRENCIES = ['USD', 'BOB', 'EUR'];
 
-const PreferencesForm: FC<PreferencesFormProps> = ({ isOpen, onClose }) => {
+const PreferencesForm: FC<PreferencesFormProps> = ({ isOpen, onClose, preferences, user }) => {
   const t = useFormatMessage();
   const { formatNumber } = useIntl();
-
   const getInitialValues = (): PreferencesFormConfig['initialValues'] => ({
-    currency: '',
-    name: '',
+    currency: preferences.currency || CURRENCIES[0],
+    name: user.displayName || '',
   });
 
   const getValidationSchema = (): PreferencesFormConfig['validationSchema'] =>
@@ -104,4 +106,4 @@ const PreferencesForm: FC<PreferencesFormProps> = ({ isOpen, onClose }) => {
   );
 };
 
-export default PreferencesForm;
+export default withUser(withPreferences(PreferencesForm));
