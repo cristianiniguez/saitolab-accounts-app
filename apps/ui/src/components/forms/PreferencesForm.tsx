@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { useIntl } from 'react-intl';
 // components
 import {
   Button,
@@ -14,27 +15,25 @@ import {
 import { Form, Formik, FormikConfig } from 'formik';
 import { SelectInput, TextInput } from '../inputs';
 // hooks
-import useFormatMessage from '@/hooks/useFormatMessage';
-// utils
-import * as Yup from 'yup';
-import { useIntl } from 'react-intl';
-import withUser, { WithUserProps } from '@/hocs/withUser';
-import withPreferences, { WithPreferencesProps } from '@/hocs/withPreferences';
 import { useFirestore } from 'reactfire';
-import { doc, setDoc } from 'firebase/firestore';
-import { updateProfile } from 'firebase/auth';
+import useFormatMessage from '@/hooks/useFormatMessage';
 import useAppToast from '@/hooks/useAppToast';
+// utils
+import { updateProfile, User } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+import * as Yup from 'yup';
 
 type PreferencesFormConfig = FormikConfig<{
   name: string;
   currency: string;
 }>;
 
-type PreferencesFormProps = WithUserProps &
-  WithPreferencesProps & {
-    isOpen: boolean;
-    onClose: () => void;
-  };
+type PreferencesFormProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  preferences: Preferences;
+  user: User;
+};
 
 const CURRENCIES = ['USD', 'BOB', 'EUR'];
 
@@ -136,4 +135,4 @@ const PreferencesForm: FC<PreferencesFormProps> = ({ isOpen, onClose, preference
   );
 };
 
-export default withUser(withPreferences(PreferencesForm));
+export default PreferencesForm;

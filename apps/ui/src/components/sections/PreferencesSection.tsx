@@ -1,26 +1,43 @@
-import withPreferences, { WithPreferencesProps } from '@/hocs/withPreferences';
-import withUser, { WithUserProps } from '@/hocs/withUser';
-import useFormatMessage from '@/hooks/useFormatMessage';
+import { FC } from 'react';
+// components
 import {
   Box,
   Button,
+  Center,
   Container,
   Divider,
   Flex,
   Heading,
+  Spinner,
   Text,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react';
-import { FC } from 'react';
 import { FaPencilAlt } from 'react-icons/fa';
 import PreferencesForm from '../forms/PreferencesForm';
+// hooks
+import useFormatMessage from '@/hooks/useFormatMessage';
+import usePreferences from '@/hooks/usePreferences';
+// HOCs
+import withUser, { WithUserProps } from '@/hocs/withUser';
 
-type PreferencesSectionProps = WithUserProps & WithPreferencesProps;
+type PreferencesSectionProps = WithUserProps;
 
-const PreferencesSection: FC<PreferencesSectionProps> = ({ preferences, user }) => {
+const PreferencesSection: FC<PreferencesSectionProps> = ({ user }) => {
   const t = useFormatMessage();
+  const { data: preferences, status } = usePreferences(user);
   const { isOpen, onClose, onOpen } = useDisclosure();
+
+  if (status === 'loading')
+    return (
+      <Box as='section'>
+        <Container maxW='container.xl' py={4}>
+          <Center>
+            <Spinner color='green' />
+          </Center>
+        </Container>
+      </Box>
+    );
 
   return (
     <Box as='section'>
@@ -52,9 +69,9 @@ const PreferencesSection: FC<PreferencesSectionProps> = ({ preferences, user }) 
         </VStack>
       </Container>
 
-      <PreferencesForm isOpen={isOpen} onClose={onClose} />
+      <PreferencesForm isOpen={isOpen} onClose={onClose} preferences={preferences} user={user} />
     </Box>
   );
 };
 
-export default withUser(withPreferences(PreferencesSection));
+export default withUser(PreferencesSection);
