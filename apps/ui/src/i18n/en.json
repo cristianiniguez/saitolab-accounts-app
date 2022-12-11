@@ -105,5 +105,7 @@
   "preferences.form.currency.label": "Currency",
   "preferences.form.currency.option.label": "{currency} - {example}",
   "preferences.form.currency.error.required": "Please select a currency for your money",
-  "preferences.form.submitButton.label": "Save"
+  "preferences.form.submitButton.label": "Save",
+  "preferences.form.toast.success.description": "Preferences updated",
+  "preferences.form.toast.error.description": "An error occurred while updating preferences"
 }

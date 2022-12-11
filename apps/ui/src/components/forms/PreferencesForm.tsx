@@ -20,6 +20,10 @@ import * as Yup from 'yup';
 import { useIntl } from 'react-intl';
 import withUser, { WithUserProps } from '@/hocs/withUser';
 import withPreferences, { WithPreferencesProps } from '@/hocs/withPreferences';
+import { useFirestore } from 'reactfire';
+import { doc, setDoc } from 'firebase/firestore';
+import { updateProfile } from 'firebase/auth';
+import useAppToast from '@/hooks/useAppToast';
 
 type PreferencesFormConfig = FormikConfig<{
   name: string;
@@ -36,6 +40,10 @@ const CURRENCIES = ['USD', 'BOB', 'EUR'];
 
 const PreferencesForm: FC<PreferencesFormProps> = ({ isOpen, onClose, preferences, user }) => {
   const t = useFormatMessage();
+  const toast = useAppToast();
+  const firestore = useFirestore();
+
+  const preferencesRef = doc(firestore, 'preferences', preferences.id);
   const { formatNumber } = useIntl();
   const getInitialValues = (): PreferencesFormConfig['initialValues'] => ({
     currency: preferences.currency || CURRENCIES[0],
@@ -48,8 +56,30 @@ const PreferencesForm: FC<PreferencesFormProps> = ({ isOpen, onClose, preference
       name: Yup.string().required(t('preferences.form.name.error.required')),
     });
 
-  const handleSubmit: PreferencesFormConfig['onSubmit'] = async (values) => {
-    console.log(values);
+  const handleSubmit: PreferencesFormConfig['onSubmit'] = async (
+    values,
+    { resetForm, setSubmitting },
+  ) => {
+    const { currency, name } = values;
+
+    try {
+      await setDoc(preferencesRef, { currency }, { merge: true });
+      await updateProfile(user, { displayName: name });
+      toast({
+        description: t('preferences.form.toast.success.description'),
+        status: 'success',
+      });
+      resetForm();
+      onClose();
+    } catch (error) {
+      console.error(error);
+      toast({
+        description: t('preferences.form.toast.error.description'),
+        status: 'error',
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const getCurrencyOptions = () => {
