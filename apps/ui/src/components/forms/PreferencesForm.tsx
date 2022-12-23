@@ -22,6 +22,8 @@ import useAppToast from '@/hooks/useAppToast';
 import { updateProfile, User } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import * as Yup from 'yup';
+// constants
+import { CURRENCIES } from '@/constants';
 
 type PreferencesFormConfig = FormikConfig<{
   name: string;
@@ -35,8 +37,6 @@ type PreferencesFormProps = {
   user: User;
 };
 
-const CURRENCIES = ['USD', 'BOB', 'EUR'];
-
 const PreferencesForm: FC<PreferencesFormProps> = ({ isOpen, onClose, preferences, user }) => {
   const t = useFormatMessage();
   const toast = useAppToast();
@@ -45,7 +45,7 @@ const PreferencesForm: FC<PreferencesFormProps> = ({ isOpen, onClose, preference
   const preferencesRef = doc(firestore, 'preferences', preferences.id);
   const { formatNumber } = useIntl();
   const getInitialValues = (): PreferencesFormConfig['initialValues'] => ({
-    currency: preferences.currency || CURRENCIES[0],
+    currency: preferences.currency || CURRENCIES.USD,
     name: user.displayName || '',
   });
 
@@ -92,7 +92,7 @@ const PreferencesForm: FC<PreferencesFormProps> = ({ isOpen, onClose, preference
       const label = t('preferences.form.currency.option.label', { currency, example });
       return { label, value: currency };
     };
-    return CURRENCIES.map(getCurrencyOption);
+    return Object.values(CURRENCIES).map(getCurrencyOption);
   };
 
   const renderForm: PreferencesFormConfig['component'] = ({ isSubmitting }) => {
