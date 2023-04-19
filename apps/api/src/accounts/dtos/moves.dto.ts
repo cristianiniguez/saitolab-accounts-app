@@ -33,7 +33,7 @@ export class CreateMoveDTO {
   @IsInt()
   @IsPositive()
   @IsNotEmpty()
-  account: number;
+  accountId: number;
 }
 
 export class UpdateMoveDTO extends PartialType(CreateMoveDTO) {}

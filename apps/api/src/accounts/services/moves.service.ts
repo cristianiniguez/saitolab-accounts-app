@@ -33,8 +33,8 @@ export class MovesService {
   }
 
   async create(data: CreateMoveDTO, user: User) {
-    const { account, date, ...rest } = data;
-    const savedAccount = await this.accountsService.findOne(account, user);
+    const { accountId, date, ...rest } = data;
+    const savedAccount = await this.accountsService.findOne(accountId, user);
     const createdMove = await this.dbService.move.create({
       data: { ...rest, accountId: savedAccount.id, date: new Date(date) },
     });
@@ -42,19 +42,20 @@ export class MovesService {
   }
 
   async update(id: number, data: UpdateMoveDTO, user: User) {
-    const { account, date, ...rest } = data;
+    const { accountId, date, ...rest } = data;
     const move = await this.findOne(id, user);
 
     const moveDate = date ? new Date(date) : undefined;
     const payload = { ...rest, date: moveDate };
 
-    if (!account)
+    if (!accountId)
       return this.dbService.move.update({
         data: payload,
         where: { id: move.id },
       });
 
-    const savedAccount = await this.accountsService.findOne(account, user);
+    // checking if account with accountId exists and is owned by the user
+    const savedAccount = await this.accountsService.findOne(accountId, user);
 
     const updatedMove = await this.dbService.move.update({
       data: { ...payload, accountId: savedAccount.id },
