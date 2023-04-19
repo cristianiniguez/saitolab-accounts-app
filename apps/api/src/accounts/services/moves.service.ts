@@ -1,8 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { User } from '@prisma/client';
+import { Move, User } from '@prisma/client';
 import { CreateMoveDTO, UpdateMoveDTO } from '../dtos/moves.dto';
 import { AccountsService } from './accounts.service';
 import { DatabaseService } from 'src/database/database.service';
+import { getDateStr } from 'src/utils';
 
 @Injectable()
 export class MovesService {
@@ -10,6 +11,14 @@ export class MovesService {
     private dbService: DatabaseService,
     private readonly accountsService: AccountsService,
   ) {}
+
+  private normalizeMove = (move: Move) => {
+    return {
+      ...move,
+      amount: move.amount.toNumber(),
+      date: getDateStr(move.date),
+    };
+  };
 
   async findOne(id: number, user: User) {
     const move = await this.dbService.move.findFirst({
@@ -20,15 +29,16 @@ export class MovesService {
     // the move should exist
     if (!move) throw new NotFoundException(`Move with id ${id} not found`);
 
-    return move;
+    return this.normalizeMove(move);
   }
 
   async create(data: CreateMoveDTO, user: User) {
     const { account, date, ...rest } = data;
     const savedAccount = await this.accountsService.findOne(account, user);
-    return this.dbService.move.create({
+    const createdMove = await this.dbService.move.create({
       data: { ...rest, accountId: savedAccount.id, date: new Date(date) },
     });
+    return this.normalizeMove(createdMove);
   }
 
   async update(id: number, data: UpdateMoveDTO, user: User) {
@@ -46,14 +56,19 @@ export class MovesService {
 
     const savedAccount = await this.accountsService.findOne(account, user);
 
-    return this.dbService.move.update({
+    const updatedMove = await this.dbService.move.update({
       data: { ...payload, accountId: savedAccount.id },
       where: { id: move.id },
     });
+
+    return this.normalizeMove(updatedMove);
   }
 
   async remove(id: number, user: User) {
     const move = await this.findOne(id, user);
-    return this.dbService.move.delete({ where: { id: move.id } });
+    const deletedMove = await this.dbService.move.delete({
+      where: { id: move.id },
+    });
+    return this.normalizeMove(deletedMove);
   }
 }

@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
-import { removePassword } from 'src/utils/user';
+import { removePassword } from 'src/utils';
 import { DatabaseService } from 'src/database/database.service';
 import { CreateUserDTO } from '../dtos/users.dto';
 

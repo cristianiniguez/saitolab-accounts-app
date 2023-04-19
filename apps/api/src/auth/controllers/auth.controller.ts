@@ -3,7 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { User } from '@prisma/client';
 
-import { removePassword } from 'src/utils/user';
+import { removePassword } from 'src/utils';
 import { AuthService } from '../services/auth.service';
 import { SignUpDTO } from '../dtos/signup.dto';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
