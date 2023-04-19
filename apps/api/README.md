@@ -7,7 +7,7 @@ API of Saito Lab Accounts (Manage your money in one place easily)
 This API uses:
 
 - [NestJS](https://nestjs.com/)
-- [TypeORM](https://typeorm.io/) (with PostgreSQL)
+- [Prisma](https://www.prisma.io/) (with PostgreSQL)
 
 ## Installation
 
@@ -75,8 +75,8 @@ $ docker compose -f docker-compose.test.yml up -d postgres-test
 # copy and past .env.example file to a .env.test file (then fill the variables)
 $ cp .env.example .env.test
 
-# run migrations
-$ NODE_ENV=test npm run migration:run
+# push db
+$ npm run push:test
 
 # then start the e2e test
 $ npm run test:e2e
