@@ -1,10 +1,9 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
+import { User } from '@prisma/client';
 
-import { User } from 'src/users/entities/user.entity';
 import { removePassword } from 'src/utils/user';
-
 import { AuthService } from '../services/auth.service';
 import { SignUpDTO } from '../dtos/signup.dto';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';

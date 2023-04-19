@@ -1,28 +1,9 @@
 import { Global, Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigType } from '@nestjs/config';
-
-import config from 'src/config';
+import { DatabaseService } from './database.service';
 
 @Global()
 @Module({
-  exports: [TypeOrmModule],
-  imports: [
-    TypeOrmModule.forRootAsync({
-      inject: [config.KEY],
-      useFactory: (configService: ConfigType<typeof config>) => {
-        return {
-          autoLoadEntities: true,
-          ssl:
-            configService.env === 'production'
-              ? { rejectUnauthorized: false }
-              : false,
-          synchronize: false,
-          type: 'postgres',
-          url: configService.databaseUrl,
-        };
-      },
-    }),
-  ],
+  exports: [DatabaseService],
+  providers: [DatabaseService],
 })
 export class DatabaseModule {}

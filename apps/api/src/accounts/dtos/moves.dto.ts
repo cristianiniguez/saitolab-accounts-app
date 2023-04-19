@@ -23,7 +23,7 @@ export class CreateMoveDTO {
 
   @IsDateString()
   @IsNotEmpty()
-  date: Date;
+  date: string;
 
   @IsString()
   @IsIn([MoveType.INCOME, MoveType.OUTCOME])

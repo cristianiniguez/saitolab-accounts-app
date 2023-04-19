@@ -11,10 +11,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Request } from 'express';
+import { User } from '@prisma/client';
 
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { User } from 'src/users/entities/user.entity';
-
 import { AccountsService } from '../services/accounts.service';
 import { CreateAccountDTO, UpdateAccountDTO } from '../dtos/accounts.dto';
 

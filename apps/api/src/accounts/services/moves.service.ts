@@ -1,66 +1,59 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-
-import { User } from 'src/users/entities/user.entity';
-
-import { Move } from '../entities/move.entity';
-import { Account } from '../entities/account.entity';
+import { User } from '@prisma/client';
 import { CreateMoveDTO, UpdateMoveDTO } from '../dtos/moves.dto';
 import { AccountsService } from './accounts.service';
+import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class MovesService {
   constructor(
-    @InjectRepository(Move) private readonly moveRepo: Repository<Move>,
-    @InjectRepository(Account)
-    private readonly accountRepo: Repository<Account>,
+    private dbService: DatabaseService,
     private readonly accountsService: AccountsService,
   ) {}
 
   async findOne(id: number, user: User) {
-    const move = await this.moveRepo.findOne({
-      relations: ['account'],
-      where: { id },
+    const move = await this.dbService.move.findFirst({
+      include: { account: true },
+      where: { account: { userId: user.id }, id },
     });
 
     // the move should exist
     if (!move) throw new NotFoundException(`Move with id ${id} not found`);
 
-    // the move should belong to an account that belongs to the user
-    const account = await this.accountRepo.findOne({
-      where: { id: move.account.id, user: { id: user.id } },
-    });
-    if (!account) throw new NotFoundException(`Move with id ${id} not found`);
-
     return move;
   }
 
   async create(data: CreateMoveDTO, user: User) {
-    const { account, ...rest } = data;
+    const { account, date, ...rest } = data;
     const savedAccount = await this.accountsService.findOne(account, user);
-
-    const newMove = this.moveRepo.create(rest);
-    newMove.account = savedAccount;
-
-    return this.moveRepo.save(newMove);
+    return this.dbService.move.create({
+      data: { ...rest, accountId: savedAccount.id, date: new Date(date) },
+    });
   }
 
   async update(id: number, data: UpdateMoveDTO, user: User) {
-    const { account, ...rest } = data;
+    const { account, date, ...rest } = data;
     const move = await this.findOne(id, user);
 
-    if (account) {
-      const savedAccount = await this.accountsService.findOne(account, user);
-      move.account = savedAccount;
-    }
+    const moveDate = date ? new Date(date) : undefined;
+    const payload = { ...rest, date: moveDate };
 
-    this.moveRepo.merge(move, rest);
-    return this.moveRepo.save(move);
+    if (!account)
+      return this.dbService.move.update({
+        data: payload,
+        where: { id: move.id },
+      });
+
+    const savedAccount = await this.accountsService.findOne(account, user);
+
+    return this.dbService.move.update({
+      data: { ...payload, accountId: savedAccount.id },
+      where: { id: move.id },
+    });
   }
 
   async remove(id: number, user: User) {
     const move = await this.findOne(id, user);
-    return this.moveRepo.delete(move.id);
+    return this.dbService.move.delete({ where: { id: move.id } });
   }
 }

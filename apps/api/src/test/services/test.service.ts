@@ -1,38 +1,34 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-
-import { User } from 'src/users/entities/user.entity';
-import { Account } from 'src/accounts/entities/account.entity';
-import { Move } from 'src/accounts/entities/move.entity';
+import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class TestService {
-  constructor(
-    @InjectRepository(User) private readonly userRepo: Repository<User>,
-    @InjectRepository(Account)
-    private readonly accountRepo: Repository<Account>,
-    @InjectRepository(Move) private readonly moveRepo: Repository<Move>,
-  ) {}
+  constructor(private dbService: DatabaseService) {}
 
   async deleteUsers() {
-    const users = await this.userRepo.find();
+    const users = await this.dbService.user.findMany();
     return Promise.all(
-      users.map((user) => this.userRepo.delete({ id: user.id })),
+      users.map((user) =>
+        this.dbService.user.delete({ where: { id: user.id } }),
+      ),
     );
   }
 
   async deleteAccounts() {
-    const accounts = await this.accountRepo.find();
+    const accounts = await this.dbService.account.findMany();
     return Promise.all(
-      accounts.map((account) => this.accountRepo.delete({ id: account.id })),
+      accounts.map((account) =>
+        this.dbService.account.delete({ where: { id: account.id } }),
+      ),
     );
   }
 
   async deleteMoves() {
-    const moves = await this.moveRepo.find();
+    const moves = await this.dbService.move.findMany();
     return Promise.all(
-      moves.map((move) => this.moveRepo.delete({ id: move.id })),
+      moves.map((move) =>
+        this.dbService.move.delete({ where: { id: move.id } }),
+      ),
     );
   }
 }
