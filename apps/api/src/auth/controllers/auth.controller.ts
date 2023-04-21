@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBasicAuth, ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { User } from '@prisma/client';
@@ -20,6 +20,7 @@ export class AuthController {
   }
 
   @Post('sign-in')
+  @ApiBasicAuth()
   @UseGuards(AuthGuard('basic'))
   signIn(@Req() req: Request) {
     return this.authService.generateJWT(req.user as User);
@@ -27,6 +28,7 @@ export class AuthController {
 
   @Get('check')
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   check(@Req() req: Request) {
     return removePassword(req.user as User);
   }

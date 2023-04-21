@@ -11,6 +11,8 @@ const validationPipe = new ValidationPipe({
 
 const documentBuilder = new DocumentBuilder()
   .setTitle('Saito Lab Accounts API')
+  .addBasicAuth()
+  .addBearerAuth()
   .build();
 
 async function bootstrap() {
