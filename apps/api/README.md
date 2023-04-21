@@ -47,44 +47,6 @@ $ npm run start:dev
 $ docker compose down
 ```
 
-## Migrations
-
-As we are using TypeORM we need to make migrations after cloning the repo and every time the entities are modified
-
-```bash
-# generate the migration
-$ npm run migration:generate <use any name>
-
-# run the migration
-$ npm run migration:run
-
-# see if the migration has been run
-$ npm run migration:show
-```
-
-## Test
-
-Unit testing is not available yet. Don't use unit test commands from **_package.json_**.
-
-For e2e testing:
-
-```bash
-# start test postgresql container
-$ docker compose -f docker-compose.test.yml up -d postgres-test
-
-# copy and past .env.example file to a .env.test file (then fill the variables)
-$ cp .env.example .env.test
-
-# push db
-$ npm run push:test
-
-# then start the e2e test
-$ npm run test:e2e
-
-# after testing
-$ docker compose -f docker-compose.test.yml down
-```
-
 ## Do you want to contribute to this project?
 
 [Contact me](https://www.cristianiniguez.com/#contact)
