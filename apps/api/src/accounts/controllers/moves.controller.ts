@@ -10,6 +10,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { User } from '@prisma/client';
 
@@ -17,7 +18,6 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 import { MovesService } from '../services/moves.service';
 import { CreateMoveDTO, UpdateMoveDTO } from '../dtos/moves.dto';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('moves')
 @UseGuards(JwtAuthGuard)

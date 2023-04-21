@@ -27,10 +27,10 @@ $ npm install
 # copy and past .env.example file to a .env file (then fill the variables)
 $ cp .env.example .env
 
-# start postgresql and pgadmin docker containers
+# start postgresql docker containers
 $ docker compose -d postgres
 
-# push and sync db (this needs to be done only one time at the beginning and every time the entities are modified)
+# push and sync db (this needs to be done only one time after clonning and every time the prisma schema is modified)
 $ npm run db:push
 ```
 
