@@ -28,17 +28,20 @@ $ npm install
 $ cp .env.example .env
 
 # start postgresql and pgadmin docker containers
-$ docker compose -d pgadmin-dev
+$ docker compose -d postgres
 
-# run the migrations (this needs to be done only one time at the beginning and every time the entities are modified)
-$ npm run migration:run
+# push and sync db (this needs to be done only one time at the beginning and every time the entities are modified)
+$ npm run db:push
 ```
 
 ## Running and working on the app
 
 ```bash
-# start postgresql and pgadmin docker containers (if it is not turned on)
-$ docker compose -d pgadmin-dev
+# start postgresql docker container (if it is not turned on)
+$ docker compose -d postgres
+
+# (optional) start prisma studio
+$ npm run db:studio
 
 # start the development server
 $ npm run start:dev
