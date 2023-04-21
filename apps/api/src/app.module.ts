@@ -2,7 +2,6 @@ import { Module, ModuleMetadata } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { getEnvFileName } from './environments';
@@ -33,7 +32,6 @@ const NormalModules: ModuleMetadata['imports'] = [
 const TestModules: ModuleMetadata['imports'] = [TestModule];
 
 @Module({
-  controllers: [AppController],
   imports:
     process.env.NODE_ENV === 'test'
       ? [...NormalModules, ...TestModules]
