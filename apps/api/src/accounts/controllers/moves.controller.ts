@@ -17,9 +17,11 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 import { MovesService } from '../services/moves.service';
 import { CreateMoveDTO, UpdateMoveDTO } from '../dtos/moves.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('moves')
 @UseGuards(JwtAuthGuard)
+@ApiTags('Moves')
 export class MovesController {
   constructor(private readonly movesService: MovesService) {}
 
