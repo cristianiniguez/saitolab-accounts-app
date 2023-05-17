@@ -8,7 +8,7 @@ import { getDateStr } from 'src/utils';
 @Injectable()
 export class MovesService {
   constructor(
-    private dbService: DatabaseService,
+    private db: DatabaseService,
     private readonly accountsService: AccountsService,
   ) {}
 
@@ -21,7 +21,7 @@ export class MovesService {
   };
 
   async findOne(id: number, user: User) {
-    const move = await this.dbService.move.findFirst({
+    const move = await this.db.move.findFirst({
       include: { account: true },
       where: { account: { userId: user.id }, id },
     });
@@ -35,7 +35,7 @@ export class MovesService {
   async create(data: CreateMoveDTO, user: User) {
     const { accountId, date, ...rest } = data;
     const savedAccount = await this.accountsService.findOne(accountId, user);
-    const createdMove = await this.dbService.move.create({
+    const createdMove = await this.db.move.create({
       data: { ...rest, accountId: savedAccount.id, date: new Date(date) },
     });
     return this.normalizeMove(createdMove);
@@ -49,7 +49,7 @@ export class MovesService {
     const payload = { ...rest, date: moveDate };
 
     if (!accountId)
-      return this.dbService.move.update({
+      return this.db.move.update({
         data: payload,
         where: { id: move.id },
       });
@@ -57,7 +57,7 @@ export class MovesService {
     // checking if account with accountId exists and is owned by the user
     const savedAccount = await this.accountsService.findOne(accountId, user);
 
-    const updatedMove = await this.dbService.move.update({
+    const updatedMove = await this.db.move.update({
       data: { ...payload, accountId: savedAccount.id },
       where: { id: move.id },
     });
@@ -67,7 +67,7 @@ export class MovesService {
 
   async remove(id: number, user: User) {
     const move = await this.findOne(id, user);
-    const deletedMove = await this.dbService.move.delete({
+    const deletedMove = await this.db.move.delete({
       where: { id: move.id },
     });
     return this.normalizeMove(deletedMove);

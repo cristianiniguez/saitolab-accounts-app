@@ -11,16 +11,16 @@ import { CreateUserDTO } from '../dtos/users.dto';
 
 @Injectable()
 export class UsersService {
-  constructor(private dbService: DatabaseService) {}
+  constructor(private db: DatabaseService) {}
 
   async findOne(id: number) {
-    const user = await this.dbService.user.findUnique({ where: { id } });
+    const user = await this.db.user.findUnique({ where: { id } });
     if (!user) throw new NotFoundException(`User with id ${id} not found`);
     return user;
   }
 
   findByEmail(email: string) {
-    return this.dbService.user.findUnique({ where: { email } });
+    return this.db.user.findUnique({ where: { email } });
   }
 
   async create(data: CreateUserDTO) {
@@ -30,7 +30,7 @@ export class UsersService {
 
     const hashedPassword = await bcrypt.hash(data.password, 10);
 
-    const savedUser = await this.dbService.user.create({
+    const savedUser = await this.db.user.create({
       data: { ...data, password: hashedPassword },
     });
 

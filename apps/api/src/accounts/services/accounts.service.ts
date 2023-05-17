@@ -5,16 +5,16 @@ import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class AccountsService {
-  constructor(private dbService: DatabaseService) {}
+  constructor(private db: DatabaseService) {}
 
   findAll(user: User) {
-    return this.dbService.account.findMany({
+    return this.db.account.findMany({
       where: { userId: user.id },
     });
   }
 
   async findOne(id: number, user: User) {
-    const account = await this.dbService.account.findFirst({
+    const account = await this.db.account.findFirst({
       include: { moves: true },
       where: { id, userId: user.id },
     });
@@ -26,18 +26,18 @@ export class AccountsService {
   }
 
   async create(data: CreateAccountDTO, user: User) {
-    return this.dbService.account.create({
+    return this.db.account.create({
       data: { ...data, userId: user.id },
     });
   }
 
   async update(id: number, data: UpdateAccountDTO, user: User) {
     const account = await this.findOne(id, user);
-    return this.dbService.account.update({ data, where: { id: account.id } });
+    return this.db.account.update({ data, where: { id: account.id } });
   }
 
   async remove(id: number, user: User) {
     const account = await this.findOne(id, user);
-    return this.dbService.account.delete({ where: { id: account.id } });
+    return this.db.account.delete({ where: { id: account.id } });
   }
 }
