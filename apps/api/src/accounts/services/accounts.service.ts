@@ -25,7 +25,7 @@ export class AccountsService {
     return account;
   }
 
-  async create(data: CreateAccountDTO, user: User) {
+  create(data: CreateAccountDTO, user: User) {
     return this.db.account.create({
       data: { ...data, userId: user.id },
     });
