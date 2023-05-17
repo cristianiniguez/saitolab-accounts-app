@@ -4,7 +4,7 @@ import { ConfigType } from '@nestjs/config';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
 import { UsersService } from 'src/users/services/users.service';
-import { removePassword } from 'src/utils/user';
+import { removePassword } from 'src/utils';
 import config from 'src/config';
 
 import { Payload } from '../models/payload.model';

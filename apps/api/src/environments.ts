@@ -1,19 +1,16 @@
-import * as dotenv from 'dotenv';
-import * as path from 'path';
+enum ENVIRONMENT {
+  DEV = 'dev',
+  PROD = 'production',
+  STAGE = 'staging',
+  TEST = 'test',
+}
 
 export const environments: { [k: string]: string } = {
-  dev: '.env',
-  production: '.env.production',
-  staging: '.env.staging',
-  test: '.env.test',
+  [ENVIRONMENT.DEV]: '.env',
+  [ENVIRONMENT.PROD]: '.env.production',
+  [ENVIRONMENT.STAGE]: '.env.staging',
+  [ENVIRONMENT.TEST]: '.env.test',
 };
 
 export const getEnvFileName = (): string =>
-  environments[process.env.NODE_ENV || 'dev'] || '.env';
-
-// only used for typeorm migrations
-export const loadEnvironment = () => {
-  dotenv.config({
-    path: path.resolve(process.cwd(), getEnvFileName()),
-  });
-};
+  environments[process.env.NODE_ENV || ENVIRONMENT.DEV] || '.env';

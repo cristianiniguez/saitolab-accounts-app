@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
+import { User } from '@prisma/client';
 import { UsersService } from 'src/users/services/users.service';
-import { User } from 'src/users/entities/user.entity';
-import { removePassword } from 'src/utils/user';
+import { removePassword } from 'src/utils';
 
 import { SignUpDTO } from '../dtos/signup.dto';
 import { Payload } from '../models/payload.model';

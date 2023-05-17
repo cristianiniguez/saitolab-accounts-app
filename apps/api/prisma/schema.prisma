@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id() @default(autoincrement())
+  email     String    @unique()
+  password  String
+  firstName String
+  lastName  String
+  role      UserRole
+  accounts  Account[]
+}
+
+model Account {
+  id     Int    @id() @default(autoincrement())
+  name   String
+  userId Int
+  user   User   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  moves  Move[]
+}
+
+model Move {
+  id        Int      @id() @default(autoincrement())
+  detail    String
+  amount    Decimal
+  date      DateTime
+  type      MoveType
+  accountId Int
+  account   Account  @relation(fields: [accountId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+enum UserRole {
+  CLIENT
+  ADMIN
+}
+
+enum MoveType {
+  INCOME
+  OUTCOME
+}

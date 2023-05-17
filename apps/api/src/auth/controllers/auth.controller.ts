@@ -1,15 +1,16 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { ApiBasicAuth, ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
+import { User } from '@prisma/client';
 
-import { User } from 'src/users/entities/user.entity';
-import { removePassword } from 'src/utils/user';
-
+import { removePassword } from 'src/utils';
 import { AuthService } from '../services/auth.service';
 import { SignUpDTO } from '../dtos/signup.dto';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 
 @Controller('auth')
+@ApiTags('Auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
@@ -19,6 +20,7 @@ export class AuthController {
   }
 
   @Post('sign-in')
+  @ApiBasicAuth()
   @UseGuards(AuthGuard('basic'))
   signIn(@Req() req: Request) {
     return this.authService.generateJWT(req.user as User);
@@ -26,6 +28,7 @@ export class AuthController {
 
   @Get('check')
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   check(@Req() req: Request) {
     return removePassword(req.user as User);
   }

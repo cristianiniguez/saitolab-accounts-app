@@ -1,26 +1,22 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-
-import { User } from 'src/users/entities/user.entity';
+import { User } from '@prisma/client';
 import { CreateAccountDTO, UpdateAccountDTO } from '../dtos/accounts.dto';
-import { Account } from '../entities/account.entity';
+import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class AccountsService {
-  constructor(
-    @InjectRepository(Account)
-    private readonly accountRepo: Repository<Account>,
-  ) {}
+  constructor(private db: DatabaseService) {}
 
   findAll(user: User) {
-    return this.accountRepo.find({ where: { user: { id: user.id } } });
+    return this.db.account.findMany({
+      where: { userId: user.id },
+    });
   }
 
   async findOne(id: number, user: User) {
-    const account = await this.accountRepo.findOne({
-      relations: ['moves'],
-      where: { id, user: { id: user.id } },
+    const account = await this.db.account.findFirst({
+      include: { moves: true },
+      where: { id, userId: user.id },
     });
 
     if (!account)
@@ -30,19 +26,18 @@ export class AccountsService {
   }
 
   create(data: CreateAccountDTO, user: User) {
-    const newAccount = this.accountRepo.create(data);
-    newAccount.user = user;
-    return this.accountRepo.save(newAccount);
+    return this.db.account.create({
+      data: { ...data, userId: user.id },
+    });
   }
 
   async update(id: number, data: UpdateAccountDTO, user: User) {
     const account = await this.findOne(id, user);
-    this.accountRepo.merge(account, data);
-    return this.accountRepo.save(account);
+    return this.db.account.update({ data, where: { id: account.id } });
   }
 
   async remove(id: number, user: User) {
     const account = await this.findOne(id, user);
-    return this.accountRepo.delete(account.id);
+    return this.db.account.delete({ where: { id: account.id } });
   }
 }

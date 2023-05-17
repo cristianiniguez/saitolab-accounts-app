@@ -1,7 +1,8 @@
-import { PartialType } from '@nestjs/mapped-types';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateAccountDTO {
+  @ApiProperty({ example: 'Bank Account #1', required: true })
   @IsString()
   @IsNotEmpty()
   name: string;
